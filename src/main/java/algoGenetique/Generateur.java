@@ -16,6 +16,8 @@ public class Generateur {
 	public static final ToDoubleBiFunction<Graine, Double> POLYNOME =
 			(g, x) -> g.get(0) * Math.pow(x, 3) + g.get(1) * Math.pow(x, 2) + g.get(2) * x + g.get(3); 
 	
+	public final static double[] INIT_POLYNOME = {0.005247306472041999, 0.009761759614494965, -0.013858369778036842, 0.320430570024019};
+			
 	private static double MIN_X = -15;
 	private static double MIN_Y = -15;
 	private static double MAX_X = 15;
