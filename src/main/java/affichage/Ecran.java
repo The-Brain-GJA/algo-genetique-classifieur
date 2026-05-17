@@ -31,8 +31,8 @@ public class Ecran {
 
 	private int largeur;
 	private int hauteur;
-	private int xmin;
-	private int ymin;
+	private double xmin;
+	private double ymin;
 	private double echelle;
 	
 	JFrame frame;
@@ -42,31 +42,36 @@ public class Ecran {
 		System.out.println("Test écran");
 		Timer t = Timer.getTimer("Affichage écran");
 
-		Ecran ecran = new Ecran(800, 400, -20, -20, 1);
-		ecran.dessiner();
+		Ecran ecran = new Ecran(800, 400, -15, -20, 10);
+		DoubleUnaryOperator fonction = x -> Generateur.POLYNOME.applyAsDouble(new Graine(Generateur.INIT_POLYNOME), x);
+		
+		ecran.dessiner(fonction);
 
 		t.afficher();
-
 	}
 	
-	private Point2D pointRepere2D(double x, double y) {
+	protected Point2D pointRepere2D(double x, double y) {
 		return new Point2D.Double(transformationX(x), transformationY(y));
 	}
 	
-	private Line2D ligneRepere2D(double x1, double y1, double x2, double y2) {
+	protected Line2D ligneRepere2D(double x1, double y1, double x2, double y2) {
 		return new Line2D.Double(transformationX(x1), transformationY(y1),
 				transformationX(x2), transformationY(y2));
 	}
 	
 	private double transformationX(double x) {
-		return x - xmin;
+		return (x - xmin) * echelle;
 	}
 
 	private double transformationY(double y) {
-		return hauteur - y + ymin;
+		return hauteur + (- y + ymin) * echelle;
 	}
 
-	public Ecran(int width, int height, int xmin, int ymin, double echelle) {
+	public Ecran(int width, int height, double xmin, double ymin) {
+		this(width, height, xmin, ymin, 1);
+	}
+	
+	public Ecran(int width, int height, double xmin, double ymin, double echelle) {
 		this.hauteur = height;
 		this.largeur = width;
 		this.xmin = xmin;
@@ -76,11 +81,10 @@ public class Ecran {
 		frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(largeur+DECALAGE_W,hauteur+DECALAGE_H);
-        frame.add(new PanelRepereEtCourbe(
-        		x -> Generateur.POLYNOME.applyAsDouble(new Graine(Generateur.INIT_POLYNOME), x)));
 	}
 
-	public void dessiner() {
+	public void dessiner(DoubleUnaryOperator fonction) {
+        frame.add(new PanelRepereEtCourbe(fonction));
         frame.setVisible(true);
         //f.setLocation(200,200);
 	}
@@ -126,9 +130,6 @@ public class Ecran {
 				yi1 = yi2;
 			}
 		}
-
 	}
 
-	
-	
 }
