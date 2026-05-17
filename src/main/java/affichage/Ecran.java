@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.ToDoubleFunction;
@@ -42,30 +43,18 @@ public class Ecran {
 		System.out.println("Test écran");
 		Timer t = Timer.getTimer("Affichage écran");
 
-		Ecran ecran = new Ecran(800, 400, -15, -20, 10);
+		Ecran ecran = new Ecran(800, 400, -16, -20, 10);
 		DoubleUnaryOperator fonction = x -> Generateur.POLYNOME.applyAsDouble(new Graine(Generateur.INIT_POLYNOME), x);
 		
-		ecran.dessiner(fonction);
+		List<ObjetDessin> dessins = List.of(new Repere(ecran),
+				new Courbe(ecran, fonction),
+				new Cluster(ecran, new Point2D[] {new Point2D.Double(200, 100)}));
+		
+		ecran.dessiner(dessins);
 
 		t.afficher();
 	}
 	
-	protected Point2D pointRepere2D(double x, double y) {
-		return new Point2D.Double(transformationX(x), transformationY(y));
-	}
-	
-	protected Line2D ligneRepere2D(double x1, double y1, double x2, double y2) {
-		return new Line2D.Double(transformationX(x1), transformationY(y1),
-				transformationX(x2), transformationY(y2));
-	}
-	
-	private double transformationX(double x) {
-		return (x - xmin) * echelle;
-	}
-
-	private double transformationY(double y) {
-		return hauteur + (- y + ymin) * echelle;
-	}
 
 	public Ecran(int width, int height, double xmin, double ymin) {
 		this(width, height, xmin, ymin, 1);
@@ -83,53 +72,50 @@ public class Ecran {
         frame.setSize(largeur+DECALAGE_W,hauteur+DECALAGE_H);
 	}
 
-	public void dessiner(DoubleUnaryOperator fonction) {
-        frame.add(new PanelRepereEtCourbe(fonction));
+	public void dessiner(List<ObjetDessin> dessins) {
+        frame.add(new PanelEcran(this, dessins));
         frame.setVisible(true);
         //f.setLocation(200,200);
 	}
-	
-	private class PanelRepereEtCourbe extends PanelEcran {
-		
-		final DoubleUnaryOperator fonctionCourbe;
-		
-		PanelRepereEtCourbe(DoubleUnaryOperator fonction) {
-			fonctionCourbe = fonction;
-		}
-		
-		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			Graphics2D g2 = (Graphics2D)g;
-			tracerRepere(g2);
-			tracerCourbe(g2, fonctionCourbe);
-		}
+
+	public double getXmin() {
+		return xmin;
 	}
 
-	private class PanelEcran extends JPanel {
-		
-		protected void tracerRepere(Graphics2D g) {
-			g.draw(ligneRepere2D(xmin, 0, getWidth(), 0)); // axe des abscisses
-			g.draw(ligneRepere2D(0, ymin, 0, getHeight())); // axe des ordonnées
-		}
-		
-		protected void tracerCourbe(Graphics2D g, DoubleUnaryOperator fonction) {
-			int h = getHeight();
-			int w = getWidth();
+	public double getYmin() {
+		return ymin;
+	}
 
-			double xi1 = xmin;
-			double yi1 = fonction.applyAsDouble(xi1);
-			
-			final double pas = 1; // XXX tester 0.5
-			for(double d=xmin+pas; d<w; d+=pas) {
-				double xi2 = d;
-				double yi2 = fonction.applyAsDouble(d);
-				Line2D segment = ligneRepere2D(xi1, yi1, xi2, yi2);
-				g.draw(segment);
-				xi1 = xi2;
-				yi1 = yi2;
-			}
-		}
+
+	public int getLargeur() {
+		return largeur;
+	}
+
+
+	public int getHauteur() {
+		return hauteur;
+	}
+
+
+	public double getEchelle() {
+		return echelle;
+	}
+
+	protected Point2D pointRepere2D(double x, double y) {
+		return new Point2D.Double(transformationX(x), transformationY(y));
+	}
+	
+	protected Line2D ligneRepere2D(double x1, double y1, double x2, double y2) {
+		return new Line2D.Double(transformationX(x1), transformationY(y1),
+				transformationX(x2), transformationY(y2));
+	}
+	
+	private double transformationX(double x) {
+		return (x - xmin) * echelle;
+	}
+
+	private double transformationY(double y) {
+		return hauteur + (- y + ymin) * echelle;
 	}
 
 }
