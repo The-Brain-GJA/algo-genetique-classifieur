@@ -1,6 +1,7 @@
+
 import outils.Timer;
 
-public class TestMain {
+public class MainTest {
 	
 	/*
 	 * set datafile separator comma
@@ -10,9 +11,10 @@ public class TestMain {
 	
 	public static void main(String[] args) {
 		
-		Timer timer = Timer.getTimer("Main");
+		Timer timer = Timer.getTimer("Algo génétique");
 		
 		System.out.println("Test");
+		
 		
 		timer.afficher();
 	}
