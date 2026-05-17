@@ -3,6 +3,8 @@ package algoGenetique;
 import java.util.Arrays;
 import java.util.function.ToDoubleFunction;
 
+import outils.GenerationAleatoire;
+
 /**
  * Liste de paramètres à calculer
  */
@@ -17,6 +19,17 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 		evaluer();
 	}
 
+	public double getEvaluation() {
+		return evaluation;
+	}
+	
+	public void secouer(double amplitude) {
+		for (int i=0; i<nbGraines(); i++) {
+			modifierElement(i, getGraine()[i] + GenerationAleatoire.random(amplitude));
+		}
+		evaluer();
+	}
+
 	private void evaluer() {
 		this.evaluation = fonctionEvaluation.applyAsDouble(this);
 	}
@@ -25,26 +38,15 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 	public int compareTo(GraineEvaluable o) {
 		return Double.valueOf(evaluation).compareTo(o.evaluation);
 	}
-
+	
 	@Override
 	public String toString() {
 		return super.toString() + " : " + evaluation;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		return super.equals(obj);
-	}
-
-	//	public void setValeurs(double... valeurs) {
-	//		if(valeurs.length != this.valeurs.length) {
-	//			throw new IllegalArgumentException(String.format("valeurs.length = %d, param.length = %d" + this.valeurs.length, valeurs.length));
-	//		}
-	//		this.valeurs = valeurs;
-	//	}
-
-	public double getEvaluation() {
-		return evaluation;
 	}
 	
 	/**
@@ -53,5 +55,5 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 	public void setEvaluation(double valeur) {
 		this.evaluation = valeur;
 	}
-
+	
 }

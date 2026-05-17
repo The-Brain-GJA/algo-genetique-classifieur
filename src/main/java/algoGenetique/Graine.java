@@ -1,11 +1,7 @@
 package algoGenetique;
 
 import java.util.Arrays;
-import java.util.function.ToDoubleFunction;
 
-/**
- * Liste de paramètres à calculer
- */
 public class Graine {
 
 	private double[] valeurs;
@@ -18,6 +14,14 @@ public class Graine {
 		return valeurs;
 	}
 
+	public int nbGraines() {
+		return valeurs.length;
+	}
+	
+	protected void modifierElement(int i, double valeur) {
+		valeurs[i] = valeur;
+	}
+	
 	public double get(int i) {
 		return valeurs[i];
 	}
