@@ -1,24 +1,9 @@
 package affichage;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.function.DoubleUnaryOperator;
-import java.util.function.ToDoubleFunction;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-
-import algoGenetique.Generateur;
-import algoGenetique.Graine;
-import outils.Timer;
 
 // TODO : mise à l'échelle
 
@@ -57,7 +42,6 @@ public class Ecran {
 	public void dessiner(List<ObjetDessin> dessins) {
         frame.add(new PanelEcran(this, dessins));
         frame.setVisible(true);
-        //f.setLocation(200,200);
 	}
 
 	public double getXmin() {
@@ -88,11 +72,7 @@ public class Ecran {
 //	}
 	
 	protected Line2D ligneRepere2D(double x1, double y1, double x2, double y2) {
-		System.out.println("--- Ligne ---");
-		System.out.println(String.format("x1,x2,y1,y2 : %f %f %f %f", x1, y1, x2, y2));
-		System.out.println(String.format("tx1,tx2,ty1,ty2 : %f %f %f %f", transformationX(x1), transformationY(y1), transformationX(x2), transformationY(y2)));
-		return new Line2D.Double(transformationX(x1), transformationY(y1),
-				transformationX(x2), transformationY(y2));
+		return new Line2D.Double(transformationX(x1), transformationY(y1), transformationX(x2), transformationY(y2));
 	}
 	
 	protected double transformationX(double x) {

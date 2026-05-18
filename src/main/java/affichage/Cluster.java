@@ -13,8 +13,11 @@ public class Cluster extends ObjetDessin {
 	
 	Point2D[] points;
 	TypePointCluster typePoint;
-	Color couleur;
 	
+	public Cluster(Ecran ecran, Point2D[] points, Color couleur) {
+		this(ecran, points, TypePointCluster.ROND, couleur);
+	}
+
 	public Cluster(Ecran ecran, Point2D[] points, TypePointCluster typePoint, Color couleur) {
 		super(ecran);
 		this.points = points;
@@ -44,14 +47,14 @@ public class Cluster extends ObjetDessin {
 		  double y2 = ecran.transformationY(y) - RAYON_CERCLE;
 		  Shape circle = new Ellipse2D.Double(x2, y2, diametre, diametre);
 		  g.fill(circle);
-		  System.out.println("x,y : " + x + " " + y);
-		  System.out.println("x2,y2 : " + x2 + " " + y2);
 		}
 
 	public void dessinerCarre(Graphics2D g, double x, double y) {
+		// XXX à faire et à tester
 		}
 
 	public void dessinerCroix(Graphics2D g, double x, double y) {
+		// XXX à faire et à tester
 	}
 
 }

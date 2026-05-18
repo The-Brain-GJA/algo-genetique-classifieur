@@ -23,7 +23,7 @@ public class Generateur {
 	private static double MAX_X = 15;
 	private static double MAX_Y = 20;
 	
-	public static Generateur getGenerateurParametresInitiaux(double[] valeurs, ParametresGenerateur parametre) {
+	public static Generateur getGenerateurAvecParametresInitiaux(double[] valeurs, ParametresGenerateur parametre) {
 		return new Generateur(valeurs, parametre, EVALUATION_PARAMETRES_INIT);
 	}
 

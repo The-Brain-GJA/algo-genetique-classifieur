@@ -3,4 +3,9 @@
   <groupId>gael</groupId>
   <artifactId>algo-genetique-classifieur</artifactId>
   <version>0.1-SNAPSHOT</version>
+  <properties>
+     <maven.compiler.target>25</maven.compiler.target>
+     <maven.compiler.source>25</maven.compiler.source>
+     <java.version>25</java.version>
+  </properties>
 </project>
