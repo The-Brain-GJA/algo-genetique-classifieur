@@ -6,7 +6,7 @@ import java.util.function.ToDoubleFunction;
 import outils.GenerationAleatoire;
 
 /**
- * Liste de paramètres à calculer
+ * Liste de paramètres avec une évaluation
  */
 public class GraineEvaluable extends Graine implements Comparable<GraineEvaluable> {
 

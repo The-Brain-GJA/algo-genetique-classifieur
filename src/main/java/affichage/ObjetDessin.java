@@ -1,5 +1,6 @@
 package affichage;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
@@ -7,7 +8,9 @@ import java.awt.Graphics2D;
  */
 public abstract class ObjetDessin {
 	
-	Ecran ecran;
+	public static final Color COULEUR_DEFAUT = Color.BLACK;
+	
+	protected Ecran ecran;
 	
 	public ObjetDessin(Ecran ecran) {
 		this.ecran = ecran;

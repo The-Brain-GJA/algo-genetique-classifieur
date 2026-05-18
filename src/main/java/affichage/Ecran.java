@@ -38,24 +38,6 @@ public class Ecran {
 	
 	JFrame frame;
 	
-	public static void main(String[] args) throws InterruptedException {
-		
-		System.out.println("Test écran");
-		Timer t = Timer.getTimer("Affichage écran");
-
-		Ecran ecran = new Ecran(800, 400, -16, -20, 10);
-		DoubleUnaryOperator fonction = x -> Generateur.POLYNOME.applyAsDouble(new Graine(Generateur.INIT_POLYNOME), x);
-		
-		List<ObjetDessin> dessins = List.of(new Repere(ecran),
-				new Courbe(ecran, fonction),
-				new Cluster(ecran, new Point2D[] {new Point2D.Double(200, 100)}));
-		
-		ecran.dessiner(dessins);
-
-		t.afficher();
-	}
-	
-
 	public Ecran(int width, int height, double xmin, double ymin) {
 		this(width, height, xmin, ymin, 1);
 	}
@@ -101,20 +83,23 @@ public class Ecran {
 		return echelle;
 	}
 
-	protected Point2D pointRepere2D(double x, double y) {
-		return new Point2D.Double(transformationX(x), transformationY(y));
-	}
+//	protected Point2D pointRepere2D(double x, double y) {
+//		return new Point2D.Double(transformationX(x), transformationY(y));
+//	}
 	
 	protected Line2D ligneRepere2D(double x1, double y1, double x2, double y2) {
+		System.out.println("--- Ligne ---");
+		System.out.println(String.format("x1,x2,y1,y2 : %f %f %f %f", x1, y1, x2, y2));
+		System.out.println(String.format("tx1,tx2,ty1,ty2 : %f %f %f %f", transformationX(x1), transformationY(y1), transformationX(x2), transformationY(y2)));
 		return new Line2D.Double(transformationX(x1), transformationY(y1),
 				transformationX(x2), transformationY(y2));
 	}
 	
-	private double transformationX(double x) {
+	protected double transformationX(double x) {
 		return (x - xmin) * echelle;
 	}
 
-	private double transformationY(double y) {
+	protected double transformationY(double y) {
 		return hauteur + (- y + ymin) * echelle;
 	}
 
