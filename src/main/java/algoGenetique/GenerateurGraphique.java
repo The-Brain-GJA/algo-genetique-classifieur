@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
-import java.util.function.ToDoubleBiFunction;
 import java.util.function.ToDoubleFunction;
 
 import affichage.Cluster;
@@ -13,7 +12,6 @@ import affichage.Courbe;
 import affichage.Ecran;
 import affichage.ObjetDessin;
 import affichage.Repere;
-import affichage.TypePointCluster;
 
 /**
  * Classe qui gère les calculs de valeurs
@@ -28,8 +26,6 @@ public class GenerateurGraphique {
 	final int indiceDepart;
 	Ecran ecran;
 	
-	//public final static double[] INIT_POLYNOME = {0.005247306472041999, 0.009761759614494965, -0.013858369778036842, 0.320430570024019};
-			
 	public static GenerateurGraphique getGenerateurAvecParametresInitiaux(double[] valeurs, ParametresGenerateurGraphique parametre) {
 		return new GenerateurGraphique(valeurs, parametre, parametre.getFonctionEvaluation());
 	}
@@ -48,13 +44,18 @@ public class GenerateurGraphique {
 		}
 		
 		// Affichage
-		this.ecran = new Ecran(LARGEUR_ECRAN, HAUTEUR_ECRAN, parametres.getMinX(), parametres.getMinY(), 10);
-		dessinerCourbe();
+		if(parametres.isAffichage()) {
+			this.ecran = new Ecran(LARGEUR_ECRAN, HAUTEUR_ECRAN, parametres.getMinX(), parametres.getMinY(), 10);
+			dessinerCourbe();
+		}
 	}
 
 	void dessinerCourbe() {
-		// XXX fonction à mettre dans les paramètres
-		DoubleUnaryOperator fonction = x -> Generateur.POLYNOME.applyAsDouble(graines[0], x);
+		if(!parametres.isAffichage()) {
+			return;
+		}
+
+		DoubleUnaryOperator fonction = x -> parametres.getCourbe().applyAsDouble(graines[0], x);
 		Point2D[] points = {
 				new Point2D.Double(parametres.getMinX(), parametres.getMinY()),
 				new Point2D.Double(parametres.getMaxX(), parametres.getMaxY())

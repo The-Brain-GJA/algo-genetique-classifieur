@@ -1,5 +1,6 @@
 package algoGenetique;
 
+import java.util.function.DoubleUnaryOperator;
 import java.util.function.ToDoubleBiFunction;
 import java.util.function.ToDoubleFunction;
 
@@ -11,6 +12,7 @@ public class ParametresGenerateurGraphique {
 	private int pourcentageGrainesConservees = 10;
 
 	// Ecran
+	private boolean affichage = false;
 	private double minX = -15;
 	private double minY = -15;
 	private double maxX = 15;
@@ -25,8 +27,8 @@ public class ParametresGenerateurGraphique {
 	private ToDoubleFunction<Graine> fonctionEvaluation = 
 				g -> Math.pow(courbe.applyAsDouble(g, minX) - minY, 2)
 					+ Math.pow(courbe.applyAsDouble(g, maxX) - maxY, 2);
-	
 
+				
 	public ParametresGenerateurGraphique() {
 	}
 
@@ -113,5 +115,14 @@ public class ParametresGenerateurGraphique {
 	public ToDoubleFunction<Graine> getFonctionEvaluation() {
 		return fonctionEvaluation;
 	}
+
+	public boolean isAffichage() {
+		return affichage;
+	}
+
+	public void setAffichage(boolean affichage) {
+		this.affichage = affichage;
+	}
+
 	
 }

@@ -35,6 +35,7 @@ public class MainCalculInitFonctionGraphique {
 		parametres.setMinY(-20);
 		parametres.setMaxX(20);
 		parametres.setMaxY(20);
+		parametres.setAffichage(true);
 		
 //		double[] init = {0.005247306472041999, 0.009761759614494965, -0.013858369778036842, 0.320430570024019};
 		double[] init = {0, 0, 0, 0};
