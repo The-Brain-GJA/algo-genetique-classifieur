@@ -1,44 +1,39 @@
 package algoGenetique;
 
+import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.Arrays;
-import java.util.function.ToDoubleBiFunction;
+import java.util.List;
+import java.util.function.DoubleUnaryOperator;
 import java.util.function.ToDoubleFunction;
+
+import affichage.Cluster;
+import affichage.Courbe;
+import affichage.Ecran;
+import affichage.ObjetDessin;
+import affichage.Repere;
 
 /**
  * Classe qui gère les calculs de valeurs
  */
 public class Generateur {
 
+	private static final int LARGEUR_ECRAN = 800;
+	private static final int HAUTEUR_ECRAN = 600;
+	
 	GraineEvaluable graines[];
 	ParametresGenerateur parametres;
 	final int indiceDepart;
-
-	public static final ToDoubleBiFunction<Graine, Double> POLYNOME =
-			(g, x) -> g.get(0) * Math.pow(x, 3) + g.get(1) * Math.pow(x, 2) + g.get(2) * x + g.get(3); 
-	
-	public final static double[] INIT_POLYNOME = {0.005247306472041999, 0.009761759614494965, -0.013858369778036842, 0.320430570024019};
-			
-	private static double MIN_X = -15;
-	private static double MIN_Y = -15;
-	private static double MAX_X = 15;
-	private static double MAX_Y = 20;
+	Ecran ecran;
 	
 	public static Generateur getGenerateurAvecParametresInitiaux(double[] valeurs, ParametresGenerateur parametre) {
-		return new Generateur(valeurs, parametre, EVALUATION_PARAMETRES_INIT);
+		return new Generateur(valeurs, parametre, parametre.getFonctionEvaluation());
 	}
 
 	public static Generateur getGenerateur(double[] valeurs, ParametresGenerateur parametre, ToDoubleFunction<Graine> evaluation) {
 		return new Generateur(valeurs, parametre, evaluation);
 	}
-	
-	/**
-	 * En début de simulation, le but est d'avoir F(MIN_X) = MIN_Y et F(MAX_X) = MAX_Y
-	 * On additionne le carré des différences
-	 */
-	public static final ToDoubleFunction<Graine> EVALUATION_PARAMETRES_INIT = 
-			g -> Math.pow(POLYNOME.applyAsDouble(g, MIN_X) - MIN_Y, 2)
-				+ Math.pow(POLYNOME.applyAsDouble(g, MAX_X) - MAX_Y, 2);
-			
+				
 	private Generateur(double[] graines, ParametresGenerateur parametres, ToDoubleFunction<Graine> evaluation) {
 		this.graines = new GraineEvaluable[parametres.getNbGraines()];
 		this.parametres = parametres;
@@ -47,14 +42,39 @@ public class Generateur {
 		for (int i=0; i<this.graines.length; i++) {
 			this.graines[i] = new GraineEvaluable(evaluation, graines.clone());
 		}
+		
+		// Affichage
+		if(parametres.isAffichage()) {
+			this.ecran = new Ecran(LARGEUR_ECRAN, HAUTEUR_ECRAN, parametres.getMinX(), parametres.getMinY(), 10);
+			dessinerCourbe();
+		}
 	}
 
+	void dessinerCourbe() {
+		if(!parametres.isAffichage()) {
+			return;
+		}
+
+		DoubleUnaryOperator fonction = x -> parametres.getCourbe().applyAsDouble(graines[0], x);
+		Point2D[] points = {
+				new Point2D.Double(parametres.getMinX(), parametres.getMinY()),
+				new Point2D.Double(parametres.getMaxX(), parametres.getMaxY())
+		};
+		List<ObjetDessin> dessins = List.of(
+				new Repere(ecran),
+				new Courbe(ecran, fonction),
+				new Cluster(ecran, points, Color.BLUE) 
+		);
+		ecran.dessiner(dessins);
+	}
+	
 	/**
 	 * Lancement de toutes les itérations
 	 */
 	public GraineEvaluable simulation() {
 		for(int i=0; i<parametres.getNbSimulations(); i++) {
 			iteration();
+			dessinerCourbe();
 		}
 		return graines[0];
 	}
