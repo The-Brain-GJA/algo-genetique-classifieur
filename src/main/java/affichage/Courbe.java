@@ -1,5 +1,6 @@
 package affichage;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.util.function.DoubleUnaryOperator;
@@ -7,10 +8,16 @@ import java.util.function.DoubleUnaryOperator;
 public class Courbe extends ObjetDessin {
 
 	DoubleUnaryOperator fonction;
+	Color couleur;
 	
 	public Courbe(Ecran ecran, DoubleUnaryOperator fonction) {
+		this(ecran, fonction, COULEUR_DEFAUT);
+	}
+
+	public Courbe(Ecran ecran, DoubleUnaryOperator fonction, Color couleur) {
 		super(ecran);
 		this.fonction = fonction;
+		this.couleur = couleur;
 	}
 
 	@Override
@@ -22,6 +29,8 @@ public class Courbe extends ObjetDessin {
 		double xi1 = ecran.getXmin();
 		double yi1 = fonction.applyAsDouble(xi1);
 		
+		g.setColor(couleur);
+
 		final double pas = 1; // XXX tester 0.5
 		for(double d=ecran.getXmin()+pas; d<w; d+=pas) {
 			double xi2 = d;
@@ -31,6 +40,8 @@ public class Courbe extends ObjetDessin {
 			xi1 = xi2;
 			yi1 = yi2;
 		}
+		
+		g.setColor(COULEUR_DEFAUT);
 	}
 
 }

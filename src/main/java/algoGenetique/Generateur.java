@@ -33,7 +33,7 @@ public class Generateur {
 	public static Generateur getGenerateur(double[] valeurs, ParametresGenerateur parametre, ToDoubleFunction<Graine> evaluation) {
 		return new Generateur(valeurs, parametre, evaluation);
 	}
-				
+
 	private Generateur(double[] graines, ParametresGenerateur parametres, ToDoubleFunction<Graine> evaluation) {
 		this.graines = new GraineEvaluable[parametres.getNbGraines()];
 		this.parametres = parametres;
@@ -61,9 +61,9 @@ public class Generateur {
 				new Point2D.Double(parametres.getMaxX(), parametres.getMaxY())
 		};
 		List<ObjetDessin> dessins = List.of(
-				new Repere(ecran),
-				new Courbe(ecran, fonction),
-				new Cluster(ecran, points, Color.BLUE) 
+				new Repere(ecran, parametres.getCouleurRepere()),
+				new Courbe(ecran, fonction, parametres.getCouleurCourbe()),
+				new Cluster(ecran, points, parametres.getCouleurPoints()) 
 		);
 		ecran.dessiner(dessins);
 	}

@@ -1,5 +1,6 @@
 package algoGenetique;
 
+import java.awt.Color;
 import java.util.function.ToDoubleBiFunction;
 import java.util.function.ToDoubleFunction;
 
@@ -16,6 +17,11 @@ public class ParametresGenerateur {
 	private double minY = -15;
 	private double maxX = 15;
 	private double maxY = 20;
+	
+	private Color couleurCourbe = Color.RED;
+	private Color couleurPoints = Color.BLUE;
+	private Color couleurRepere = Color.BLACK;
+	
 	
 	// Fonction d'évaluation
 	private ToDoubleBiFunction<Graine, Double> courbe =
@@ -123,5 +129,28 @@ public class ParametresGenerateur {
 		this.affichage = affichage;
 	}
 
+	public Color getCouleurCourbe() {
+		return couleurCourbe;
+	}
+
+	public void setCouleurCourbe(Color couleurCourbe) {
+		this.couleurCourbe = couleurCourbe;
+	}
+
+	public Color getCouleurPoints() {
+		return couleurPoints;
+	}
+
+	public void setCouleurPoints(Color couleurPoints) {
+		this.couleurPoints = couleurPoints;
+	}
+
+	public Color getCouleurRepere() {
+		return couleurRepere;
+	}
+
+	public void setCouleurRepere(Color couleurRepere) {
+		this.couleurRepere = couleurRepere;
+	}
 	
 }
