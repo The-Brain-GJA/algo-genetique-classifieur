@@ -7,12 +7,15 @@ import java.util.function.ToDoubleFunction;
 public class ParametresGenerateur {
 
 	private double amplitudeIteration = 1.0;
-	private int nbGraines = 100;
+	private int nbGraines = 100; // Nombre de graines pour une simulation
 	private int nbSimulations = 1000;
 	private int pourcentageGrainesConservees = 10;
 
 	// Ecran
 	private boolean affichage = false;
+	private int largeurEcran = 800;
+	private final int hauteurEcran = 600;
+	private int echelle = 10;
 	private double minX = -15;
 	private double minY = -15;
 	private double maxX = 15;
@@ -152,5 +155,25 @@ public class ParametresGenerateur {
 	public void setCouleurRepere(Color couleurRepere) {
 		this.couleurRepere = couleurRepere;
 	}
-	
+
+	public int getLargeurEcran() {
+		return largeurEcran;
+	}
+
+	public void setLargeurEcran(int largeurEcran) {
+		this.largeurEcran = largeurEcran;
+	}
+
+	public int getEchelle() {
+		return echelle;
+	}
+
+	public void setEchelle(int echelle) {
+		this.echelle = echelle;
+	}
+
+	public int getHauteurEcran() {
+		return hauteurEcran;
+	}
+
 }

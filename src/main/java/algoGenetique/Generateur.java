@@ -18,9 +18,6 @@ import affichage.Repere;
  */
 public class Generateur {
 
-	private static final int LARGEUR_ECRAN = 800;
-	private static final int HAUTEUR_ECRAN = 600;
-	
 	GraineEvaluable graines[];
 	ParametresGenerateur parametres;
 	final int indiceDepart;
@@ -45,7 +42,7 @@ public class Generateur {
 		
 		// Affichage
 		if(parametres.isAffichage()) {
-			this.ecran = new Ecran(LARGEUR_ECRAN, HAUTEUR_ECRAN, parametres.getMinX(), parametres.getMinY(), 10);
+			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), parametres.getMinX(), parametres.getMinY(), parametres.getEchelle());
 			dessinerCourbe();
 		}
 	}

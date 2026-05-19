@@ -1,6 +1,5 @@
 package algoGenetique;
 
-import java.util.Arrays;
 import java.util.function.ToDoubleFunction;
 
 import outils.GenerationAleatoire;
@@ -10,6 +9,8 @@ import outils.GenerationAleatoire;
  */
 public class GraineEvaluable extends Graine implements Comparable<GraineEvaluable> {
 
+	public static int nbGraines = 0;
+	
 	private ToDoubleFunction<Graine> fonctionEvaluation;
 	private double evaluation = Double.MAX_VALUE;
 	
@@ -17,12 +18,13 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 		super(valeurs);
 		this.fonctionEvaluation = fonctionEvaluation;
 		evaluer();
+		nbGraines++;
 	}
 
-	public double getEvaluation() {
-		return evaluation;
+	public GraineEvaluable(ToDoubleFunction<Graine> fonctionEvaluation, Graine graine) {
+		this(fonctionEvaluation, graine.getValeurs().clone());
 	}
-	
+
 	public void secouer(double amplitude) {
 		for (int i=0; i<nbGraines(); i++) {
 			modifierElement(i, getGraine()[i] + GenerationAleatoire.random(amplitude));
@@ -49,11 +51,10 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 		return super.equals(obj);
 	}
 	
-	/**
-	 * Uniquement pour les TU ?
-	 */
-	public void setEvaluation(double valeur) {
-		this.evaluation = valeur;
+	public double getEvaluation() {
+		return evaluation;
 	}
+	
+	
 	
 }

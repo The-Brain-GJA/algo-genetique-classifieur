@@ -4,14 +4,13 @@ import java.text.DecimalFormat;
 import java.util.function.ToDoubleBiFunction;
 import java.util.function.ToDoubleFunction;
 
-import algoGenetique.Generateur;
 import algoGenetique.Graine;
-import algoGenetique.GraineEvaluable;
 import algoGenetique.ParametresGenerateur;
 import algoGenetique.Simulation;
+import algoGenetique.SimulationMultiGraines;
 import outils.Timer;
 
-public class MainCalculInitFonction {
+public class MainSimulationMultipleDegre5 {
 	
 	/*
 	 * set datafile separator comma
@@ -28,16 +27,16 @@ public class MainCalculInitFonction {
 		
 		Timer timer = Timer.getTimer("Algo génétique");
 		
-		System.out.println("Test");
+		System.out.println("Test simulation");
 		
 		ParametresGenerateur parametres = new ParametresGenerateur();
-		parametres.setNbGraines(1000);
+		parametres.setNbGraines(10);
 		parametres.setNbSimulations(1_000);
 		parametres.setPourcentageGrainesConservees(20);
-		parametres.setAmplitudeIteration(0.0001);
-		double xmin = -20;
-		double ymin = -20;
-		double xmax = 50;
+		parametres.setAmplitudeIteration(0.001);
+		double xmin = -15;
+		double ymin = -15;
+		double xmax = 15;
 		double ymax = 20;
 		
 		parametres.setMinX(xmin);
@@ -60,27 +59,35 @@ public class MainCalculInitFonction {
 		parametres.modifierFonction(courbe, fonctionEvaluation);
 
 		
-//		double[] init = {0.005247306472041999, 0.009761759614494965, -0.013858369778036842, 0.320430570024019};
-//		double[] init = {0, 0, 0, 0, 0, 0};
-		double[] init = {0, 0, 0, 1, 0, 0};
-
-		System.out.println("Init : " + parametres.getFonctionEvaluation().applyAsDouble(new Graine(init)));
-		System.out.println("F(-20) = " + parametres.getCourbe().applyAsDouble(new Graine(init), -20.0));
-		System.out.println("F(20) = " + parametres.getCourbe().applyAsDouble(new Graine(init), 20.0));
-
-		Generateur gen = Generateur.getGenerateurAvecParametresInitiaux(init, parametres);
-		GraineEvaluable graine = gen.simulation();
-		System.out.println(graine);
-
-		//Graine g = new Graine(init);
-		System.out.println("Init : " + parametres.getFonctionEvaluation().applyAsDouble(graine));
-		System.out.println("F(-20) = " + parametres.getCourbe().applyAsDouble(graine, -20.0));
-		System.out.println("F(20) = " + parametres.getCourbe().applyAsDouble(graine, 20.0));
+		double[] init1 = {0, 1, 1, 1, 0, 0};
+		double[] init2 = {0, 0, 0, 1, 0, 0};
+		double[] init3 = {1, 1, 1, 1, 1, 1};
+		
+		Graine[] init = new Graine[] {new Graine(init1), new Graine(init2), new Graine(init3)};
+		
+		SimulationMultiGraines simulation = new SimulationMultiGraines(parametres, init);
+		
+		timer.afficher();
+		
+		simulation.simulation();
 		
 		DecimalFormat df = new DecimalFormat("###,###,###");
 		System.out.println("nbSimulations : " + df.format(Simulation.nbSimulations));
-		System.out.println("nbGraines : " + df.format(GraineEvaluable.nbGraines));
-
+		System.out.println("Meilleure graine : " + simulation.graineEnTete());
+		
+		for(int i=0; i<init.length; i++) {
+			System.out.println("Graine " + i + " : " + simulation.getSimulations()[i].graineEnTete().getEvaluation());
+		}
+//		
+//		Generateur gen = Generateur.getGenerateurAvecParametresInitiaux(init, parametres);
+//		GraineEvaluable graine = gen.simulation();
+//		System.out.println(graine);
+//
+//		//Graine g = new Graine(init);
+//		System.out.println("Init : " + parametres.getFonctionEvaluation().applyAsDouble(graine));
+//		System.out.println("F(-20) = " + parametres.getCourbe().applyAsDouble(graine, -20.0));
+//		System.out.println("F(20) = " + parametres.getCourbe().applyAsDouble(graine, 20.0));
+//		
 		timer.afficher();
 	}
 }

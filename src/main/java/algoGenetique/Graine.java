@@ -36,11 +36,14 @@ public class Graine {
 		return obj instanceof Graine g && Arrays.equals(valeurs, g.valeurs);
 	}
 
-	//	public void setValeurs(double... valeurs) {
-	//		if(valeurs.length != this.valeurs.length) {
-	//			throw new IllegalArgumentException(String.format("valeurs.length = %d, param.length = %d" + this.valeurs.length, valeurs.length));
-	//		}
-	//		this.valeurs = valeurs;
-	//	}
+	public double[] getValeurs() {
+		return valeurs;
+	}
+	
+	@Override
+	protected Graine clone() {
+		return new Graine(valeurs.clone());
+	}
+
 
 }
