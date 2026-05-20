@@ -29,10 +29,12 @@ public class MainSimulationMultipleDegre3 {
 		System.out.println("Test simulation");
 		
 		ParametresGenerateur parametres = new ParametresGenerateur();
-		parametres.setNbGraines(10);
-		parametres.setNbSimulations(1_000);
-		parametres.setPourcentageGrainesConservees(20);
-		parametres.setAmplitudeIteration(0.001);
+		parametres.setNbSimulations(1);
+		parametres.setNbGraines(100);
+		parametres.setPourcentageGrainesConservees(50);
+		parametres.setNbIterations(1_000);
+		parametres.setAmplitudeIteration(0.10);
+		parametres.setFrequenceAffichageIterations(20);
 		double xmin = -15;
 		double ymin = -15;
 		double xmax = 15;
@@ -58,14 +60,12 @@ public class MainSimulationMultipleDegre3 {
 //		parametres.modifierFonction(courbe, fonctionEvaluation);
 
 		
-		//double[] init1 = {0.005247306472041999, 0.009761759614494965, -0.013858369778036842, 0.320430570024019};
-		double[] init1 = {0, 0, 0, 0};
-		double[] init2 = {0, 0,  1, 1};
-		double[] init3 = {7.481049269264604E-4, 0.00663737216998216, 0.9984237194984587, 1.002454670826395};
-//		double[] init1 = {0, 0, 0, 1, 0, 0};
-//		double[] init2 = {0, 1, 1, 1, 0, 0};
-		
-		Graine[] init = new Graine[] {new Graine(init1), new Graine(init2), new Graine(init3)};
+		Graine[] init = new Graine[] {
+	    		new Graine(new double[] {10,  10, 10, 10}),
+	    		new Graine(new double[] {1, 1, 1, 1}),
+	    		new Graine(new double[] {0.5, 0.5, 0.5, 0.5}),
+	    		new Graine(new double[] {0, 0, 0, 0})
+			};
 		
 		SimulationMultiGraines simulation = new SimulationMultiGraines(parametres, init);
 		
@@ -81,7 +81,7 @@ public class MainSimulationMultipleDegre3 {
 		System.out.println("Meilleure graine : " + simulation.graineEnTete());
 
 		for(int i=0; i<init.length; i++) {
-			System.out.println("Graine " + i + " : " + simulation.getSimulations()[i].graineEnTete().getEvaluation());
+			System.out.println("Graine " + i + " : " + simulation.getSimulations()[i].graineEnTete());
 		}
 
 //		

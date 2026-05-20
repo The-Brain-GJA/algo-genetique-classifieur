@@ -3,7 +3,8 @@ package algoGenetique;
 import java.util.Arrays;
 
 /**
- * Gestion d'une simulation à partir d'une seule graine
+ * Gestion d'une simulation à partir d'une seule graine.
+ * Cette graine est recopiée plusieurs fois, pour l'algorithme génétique
  */
 public class Simulation implements Comparable<Simulation> {
 	

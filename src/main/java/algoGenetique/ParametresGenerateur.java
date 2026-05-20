@@ -8,9 +8,12 @@ public class ParametresGenerateur {
 
 	private double amplitudeIteration = 1.0;
 	private int nbGraines = 100; // Nombre de graines pour une simulation
-	private int nbSimulations = 1000;
+	private int nbSimulations = 100;
 	private int pourcentageGrainesConservees = 10;
+	private int nbIterations = 10_000;
 
+	private int frequenceAffichageIterations = 10; // En pourcentage
+	
 	// Ecran
 	private boolean affichage = false;
 	private int largeurEcran = 800;
@@ -22,9 +25,11 @@ public class ParametresGenerateur {
 	private double maxY = 20;
 	
 	private Color couleurCourbe = Color.RED;
-	private Color couleurPoints = Color.BLUE;
+	private Color couleurPoints = Color.GRAY;
 	private Color couleurRepere = Color.BLACK;
-	
+	public Color[] listeCouleurs = { Color.BLUE, Color.CYAN, Color.RED, Color.GREEN, Color.GRAY };
+	public double pasCourbe = 1;
+
 	
 	// Fonction d'évaluation
 	private ToDoubleBiFunction<Graine, Double> courbe =
@@ -46,12 +51,6 @@ public class ParametresGenerateur {
 		this.amplitudeIteration = amplitudeIteration;
 	}
 
-	public void modifierFonction(ToDoubleBiFunction<Graine, Double> courbe, ToDoubleFunction<Graine> fonctionEvaluation) {
-		this.courbe = courbe;
-		this.fonctionEvaluation = fonctionEvaluation;
-	}
-	
-	
 	public double getAmplitudeIteration() {
 		return amplitudeIteration;
 	}
@@ -119,9 +118,17 @@ public class ParametresGenerateur {
 	public ToDoubleBiFunction<Graine, Double> getCourbe() {
 		return courbe;
 	}
-
+	
+	public void setCourbe(ToDoubleBiFunction<Graine, Double> courbe) {
+		this.courbe = courbe;
+	}
+	
 	public ToDoubleFunction<Graine> getFonctionEvaluation() {
 		return fonctionEvaluation;
+	}
+	
+	public void setFonctionEvaluation(ToDoubleFunction<Graine> fonctionEvaluation) {
+		this.fonctionEvaluation = fonctionEvaluation;
 	}
 
 	public boolean isAffichage() {
@@ -176,4 +183,37 @@ public class ParametresGenerateur {
 		return hauteurEcran;
 	}
 
+	public int getNbIterations() {
+		return nbIterations;
+	}
+
+	public void setNbIterations(int nbIterations) {
+		this.nbIterations = nbIterations;
+	}
+
+	public int getFrequenceAffichageIterations() {
+		return frequenceAffichageIterations;
+	}
+
+	public void setFrequenceAffichageIterations(int frequenceAffichageIterations) {
+		this.frequenceAffichageIterations = frequenceAffichageIterations;
+	}
+
+	public Color[] getListeCouleurs() {
+		return listeCouleurs;
+	}
+
+	public void setListeCouleurs(Color[] listeCouleurs) {
+		this.listeCouleurs = listeCouleurs;
+	}
+
+	public double getPasCourbe() {
+		return pasCourbe;
+	}
+
+	public void setPasCourbe(double pasCourbe) {
+		this.pasCourbe = pasCourbe;
+	}
+
+	
 }

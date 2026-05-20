@@ -1,6 +1,5 @@
 package algoGenetique;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +58,7 @@ public class Generateur {
 		};
 		List<ObjetDessin> dessins = List.of(
 				new Repere(ecran, parametres.getCouleurRepere()),
-				new Courbe(ecran, fonction, parametres.getCouleurCourbe()),
+				new Courbe(ecran, fonction, parametres.getCouleurCourbe(), parametres.getPasCourbe()),
 				new Cluster(ecran, points, parametres.getCouleurPoints()) 
 		);
 		ecran.dessiner(dessins);
@@ -69,7 +68,7 @@ public class Generateur {
 	 * Lancement de toutes les itérations
 	 */
 	public GraineEvaluable simulation() {
-		for(int i=0; i<parametres.getNbSimulations(); i++) {
+		for(int i=0; i<parametres.getNbIterations(); i++) {
 			iteration();
 			dessinerCourbe();
 		}

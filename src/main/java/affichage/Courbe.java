@@ -9,15 +9,17 @@ public class Courbe extends ObjetDessin {
 
 	DoubleUnaryOperator fonction;
 	Color couleur;
+	double pas;
 	
-	public Courbe(Ecran ecran, DoubleUnaryOperator fonction) {
-		this(ecran, fonction, COULEUR_DEFAUT);
+	public Courbe(Ecran ecran, DoubleUnaryOperator fonction, double pas) {
+		this(ecran, fonction, COULEUR_DEFAUT, pas);
 	}
 
-	public Courbe(Ecran ecran, DoubleUnaryOperator fonction, Color couleur) {
+	public Courbe(Ecran ecran, DoubleUnaryOperator fonction, Color couleur, double pas) {
 		super(ecran);
 		this.fonction = fonction;
 		this.couleur = couleur;
+		this.pas = pas;
 	}
 
 	@Override
@@ -31,7 +33,6 @@ public class Courbe extends ObjetDessin {
 		
 		g.setColor(couleur);
 
-		final double pas = 1; // XXX tester 0.5
 		for(double d=ecran.getXmin()+pas; d<w; d+=pas) {
 			double xi2 = d;
 			double yi2 = fonction.applyAsDouble(d);

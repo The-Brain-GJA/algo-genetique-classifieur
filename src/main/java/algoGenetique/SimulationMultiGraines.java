@@ -3,8 +3,11 @@ package algoGenetique;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.DoubleUnaryOperator;
 
 import affichage.Cluster;
@@ -19,38 +22,47 @@ import outils.Pair;
  */
 public class SimulationMultiGraines {
 
-	SimulationGraine simulations[];
+	SimulationGraine simulationsMultiGraines[];
 	ParametresGenerateur parametres;
 	Ecran ecran;
+	ExecutorService executor;
+	Color[] listeCouleurs;
 	
 	public SimulationMultiGraines(ParametresGenerateur parametres, Graine... graines) {
 		this.parametres = parametres;
-		simulations = new SimulationGraine[graines.length];
+		simulationsMultiGraines = new SimulationGraine[graines.length];
 		for(int i=0; i<graines.length; i++) {
-			simulations[i] = new SimulationGraine(parametres, graines[i], i);
+			simulationsMultiGraines[i] = new SimulationGraine(parametres, graines[i], i);
 		}
 		if(parametres.isAffichage()) {
 			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), parametres.getMinX(), parametres.getMinY(), parametres.getEchelle());
+			listeCouleurs = parametres.getListeCouleurs();
 			dessinerCourbes();
 		}
 		// XXX
-		System.out.println("(multi) Création de " + simulations.length + " simulations");
+		executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		System.out.println("(multi) Création de " + simulationsMultiGraines.length + " simulations sur " + Runtime.getRuntime().availableProcessors() + " processeurs pour " + graines.length + " graines");
 	}
 	
-	// XXX une graine par processeur
+	// XXX une graine par processeur, avec l'écran en paramètre
 	// XXX arrêter si calcul < 0.1
 	
 	public void simulation() {
-		for(int i=0; i<parametres.getNbSimulations(); i++) {
-			for(int j=0; j<simulations.length; j++) {
-				simulations[j].iteration();
+		int nbIterations = parametres.getNbIterations();
+		for(int i=0; i<nbIterations; i++) {
+			for(int j=0; j<simulationsMultiGraines.length; j++) {
+				simulationsMultiGraines[j].iteration();
+				//Arrays.sort(simulationsMultiGraines);
 				dessinerCourbes();
+			}
+			if(i > 0 && i % (nbIterations * parametres.getFrequenceAffichageIterations() / 100) == 0) {
+				System.out.println("Traitement de l'itération " + i + " / " + nbIterations);
 			}
 		}
 	}
 
 	public Pair<Integer,GraineEvaluable> graineEnTete() {
-		SimulationGraine meilleureSimulation = List.of(simulations)
+		SimulationGraine meilleureSimulation = List.of(simulationsMultiGraines)
 				.stream()
 				.sorted(Comparator.comparing(SimulationGraine::graineEnTete))
 				.findFirst().orElse(null);
@@ -64,13 +76,11 @@ public class SimulationMultiGraines {
 		if(!parametres.isAffichage()) {
 			return;
 		}
-
-		final Color[] listeCouleurs = { Color.BLUE, Color.CYAN, Color.GREEN, Color.RED, Color.GRAY }; 
 		
-		DoubleUnaryOperator[] fonctions = new DoubleUnaryOperator[simulations.length];
+		DoubleUnaryOperator[] fonctions = new DoubleUnaryOperator[simulationsMultiGraines.length];
 		
 		for(int i=0; i<fonctions.length; i++) {
-			Graine g = simulations[i].graineEnTete();
+			Graine g = simulationsMultiGraines[i].graineEnTete();
 			fonctions[i] = x -> parametres.getCourbe().applyAsDouble(g, x);
 		}
 		 
@@ -82,13 +92,13 @@ public class SimulationMultiGraines {
 		dessins.add(new Repere(ecran, parametres.getCouleurRepere()));
 		dessins.add(new Cluster(ecran, points, parametres.getCouleurPoints()));
 		for(int i=0; i<fonctions.length; i++) {
-			dessins.add(new Courbe(ecran, fonctions[i], listeCouleurs[i % listeCouleurs.length]));
+			dessins.add(new Courbe(ecran, fonctions[i], listeCouleurs[i % listeCouleurs.length], parametres.getPasCourbe()));
 		}
 		ecran.dessiner(dessins);
 	}
 
 	public SimulationGraine[] getSimulations() {
-		return simulations;
+		return simulationsMultiGraines;
 	}
 	
 	

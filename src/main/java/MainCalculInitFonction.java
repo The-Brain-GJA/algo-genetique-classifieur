@@ -57,7 +57,7 @@ public class MainCalculInitFonction {
 					g -> Math.pow(courbe.applyAsDouble(g, xmin) - ymin, 2)
 						+ Math.pow(courbe.applyAsDouble(g, xmax) - ymax, 2);
 
-		parametres.modifierFonction(courbe, fonctionEvaluation);
+		parametres.setCourbe(courbe);
 
 		
 //		double[] init = {0.005247306472041999, 0.009761759614494965, -0.013858369778036842, 0.320430570024019};

@@ -2,15 +2,15 @@
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.function.ToDoubleBiFunction;
-import java.util.function.ToDoubleFunction;
 
 import algoGenetique.Graine;
+import algoGenetique.GraineEvaluable;
 import algoGenetique.ParametresGenerateur;
 import algoGenetique.Simulation;
 import algoGenetique.SimulationMultiGraines;
 import outils.Timer;
 
-public class MainSimulationMultipleDegre5 {
+public class MainSimulationMultipleDegre3_bis {
 	
 	/*
 	 * set datafile separator comma
@@ -20,20 +20,22 @@ public class MainSimulationMultipleDegre5 {
 	 * 
 	 */
 
-	// Tester : equation du 5ème degré
+	// Tester : equation du 3ème degré
 	
 
 	public static void main(String[] args) {
 		
-		Timer timer = Timer.getTimer("Algo génétique polynome degré 5");
+		Timer timer = Timer.getTimer("Algo génétique");
 		
 		System.out.println("Test simulation");
 		
 		ParametresGenerateur parametres = new ParametresGenerateur();
-		parametres.setNbGraines(10);
-		parametres.setNbSimulations(1_000);
-		parametres.setPourcentageGrainesConservees(20);
-		parametres.setAmplitudeIteration(0.001);
+		parametres.setNbSimulations(1);
+		parametres.setNbGraines(100);
+		parametres.setPourcentageGrainesConservees(50);
+		parametres.setNbIterations(1_000);
+		parametres.setAmplitudeIteration(0.10);
+		parametres.setFrequenceAffichageIterations(20);
 		double xmin = -15;
 		double ymin = -15;
 		double xmax = 15;
@@ -49,35 +51,40 @@ public class MainSimulationMultipleDegre5 {
 		parametres.setCouleurPoints(Color.GRAY);
 		
 		ToDoubleBiFunction<Graine, Double> courbe =
-				(g, x) -> g.get(0) * Math.pow(x, 3) + g.get(1) * Math.pow(x, 2) + g.get(2) * x + g.get(3)
-					+ g.get(4) * Math.pow(x, 4) + g.get(5) * Math.pow(x, 5); 
-
-		ToDoubleFunction<Graine> fonctionEvaluation = 
-					g -> Math.pow(courbe.applyAsDouble(g, xmin) - ymin, 2)
-						+ Math.pow(courbe.applyAsDouble(g, xmax) - ymax, 2);
-
+				(g, x) -> g.get(0) * Math.pow((x - g.get(1)), 3) + g.get(2) * Math.pow((x - g.get(3)), 2)
+					+ g.get(4) * (x - g.get(5)) + g.get(6); 
+//
+//		ToDoubleFunction<Graine> fonctionEvaluation = 
+//					g -> Math.pow(courbe.applyAsDouble(g, xmin) - ymin, 2)
+//						+ Math.pow(courbe.applyAsDouble(g, xmax) - ymax, 2);
+//
 		parametres.setCourbe(courbe);
 
 		
-		double[] init1 = {0, 1, 1, 1, 0, 0};
-		double[] init2 = {0, 0, 0, 1, 0, 0};
-		double[] init3 = {1, 1, 1, 1, -0.01, -0.01};
-		
-		Graine[] init = new Graine[] {new Graine(init1), new Graine(init2), new Graine(init3)};
+		Graine[] init = new Graine[] {
+	    		new Graine(new double[] {-1, -1, -1, -1, -1, -1, -1}),
+	    		new Graine(new double[] {0.006, -0.2, -0.001, 0.03, -0.02, 0.10, 10.09}),
+	    		new Graine(new double[] {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5}),
+	    		new Graine(new double[] {0, 0, 0, 0, 0, 0, 0})
+			};
 		
 		SimulationMultiGraines simulation = new SimulationMultiGraines(parametres, init);
 		
-		timer.afficher();
-		
 		simulation.simulation();
+		
+		var mg = simulation.graineEnTete();
+		System.out.println("Meilleure graine " + mg.getX() + " " + mg.getY());
+		//System.out.println("Graine initiale : " + mg.getY().);
 		
 		DecimalFormat df = new DecimalFormat("###,###,###");
 		System.out.println("nbSimulations : " + df.format(Simulation.nbSimulations));
+		System.out.println("nbGraines : " + df.format(GraineEvaluable.nbGraines));
 		System.out.println("Meilleure graine : " + simulation.graineEnTete());
-		
+
 		for(int i=0; i<init.length; i++) {
-			System.out.println("Graine " + i + " : " + simulation.getSimulations()[i].graineEnTete().getEvaluation());
+			System.out.println("Graine " + i + " : " + simulation.getSimulations()[i].graineEnTete());
 		}
+
 //		
 //		Generateur gen = Generateur.getGenerateurAvecParametresInitiaux(init, parametres);
 //		GraineEvaluable graine = gen.simulation();
