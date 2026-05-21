@@ -34,12 +34,17 @@ public class MainSimulationMultipleCosinus {
 		parametres.setNbSimulations(10);
 		parametres.setNbGraines(10);
 		parametres.setPourcentageGrainesConservees(20);
-		parametres.setNbIterations(10_000);
-		parametres.setAmplitudeIteration(0.01);
+		parametres.setNbIterations(100_000);
+		parametres.setAmplitudeIteration(0.001);
 		parametres.setFrequenceAffichageIterations(20);
-		parametres.setPointsX(new double[] {-15, 15});
-		parametres.setPointsY(new double[] {-15, 20});
+//		parametres.setPointsX(new double[] {-15, 15});
+//		parametres.setPointsY(new double[] {-15, 20});
+		parametres.setPointsX(new double[] {-15, -1, 15});
+		parametres.setPointsY(new double[] {-15, 10, 20});
+		parametres.setMinX(-40);
+		parametres.setMinY(-40);
 		parametres.setAffichage(true);
+		parametres.setEchelle(5);
 		parametres.setFrequenceAffichage(100);
 		
 		parametres.setPasCourbe(0.5);
@@ -63,8 +68,7 @@ public class MainSimulationMultipleCosinus {
     		new Graine(new double[] {20, 20, 20, 20}),
     		new Graine(new double[] {10,  10, 10, 10}),
     		new Graine(new double[] {30, 0, 10, 10}),
-    		new Graine(new double[] {10, 0, 20, 20}),
-    		new Graine(new double[] {30.245548044248075, -0.6516739049527546, 7.998569213396938, 9.709059371245282})
+    		new Graine(new double[] {10, 0, 20, 20})
 		};
 		
 		// Graine 2 : [29.946279236447847, -0.6577327043627059, 8.027119716996502, 9.4545855281383] : 1.8994155153878666E-6

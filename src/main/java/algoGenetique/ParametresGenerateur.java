@@ -12,7 +12,7 @@ public class ParametresGenerateur {
 
 	private double amplitudeIteration = 1.0;
 	private int nbGraines = 100; // Nombre de graines pour une simulation
-	private int nbSimulations = 100;
+	private int nbSimulations = 10;
 	private int pourcentageGrainesConservees = 10;
 	private int nbIterations = 10_000;
 
@@ -21,18 +21,19 @@ public class ParametresGenerateur {
 	// Ecran
 	private boolean affichage = false;
 	private int largeurEcran = 800;
-	private final int hauteurEcran = 600;
+	private int hauteurEcran = 600;
+	private int minX = -30;
+	private int minY = -30;
 	private int echelle = 10;
-	private double pointsX[] = {-15, 0, 15};
-	private double pointsY[] = {-15, 10, 20};
-	
+	private double pointsX[] = {-15, 15};
+	private double pointsY[] = {-15, 20};
 	
 	private Color couleurCourbe = Color.RED;
 	private Color couleurPoints = Color.GRAY;
 	private Color couleurRepere = Color.BLACK;
 	private Color[] listeCouleurs = { Color.BLUE, Color.CYAN, Color.RED, Color.GREEN, Color.GRAY };
 	public double pasCourbe = 1;
-	private int frequenceAffichage = 10; // Une image sur 10
+	private int frequenceAffichage = 100; // Une image sur 100
 
 	
 	// Fonction à trouver
@@ -237,6 +238,26 @@ public class ParametresGenerateur {
 
 	public void setPointsY(double[] pointsY) {
 		this.pointsY = pointsY;
+	}
+
+	public int getMinX() {
+		return minX;
+	}
+
+	public void setMinX(int minX) {
+		this.minX = minX;
+	}
+
+	public int getMinY() {
+		return minY;
+	}
+
+	public void setMinY(int minY) {
+		this.minY = minY;
+	}
+
+	public void setHauteurEcran(int hauteurEcran) {
+		this.hauteurEcran = hauteurEcran;
 	}
 
 	

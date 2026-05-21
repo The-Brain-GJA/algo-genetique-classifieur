@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.function.ToDoubleBiFunction;
 
 import algoGenetique.Graine;
+import algoGenetique.GraineEvaluable;
 import algoGenetique.ParametresGenerateur;
 import algoGenetique.Simulation;
 import algoGenetique.SimulationMultiGraines;
@@ -29,14 +30,15 @@ public class MainSimulationMultipleDegre5 {
 		System.out.println("Test simulation");
 		
 		ParametresGenerateur parametres = new ParametresGenerateur();
-		parametres.setNbSimulations(1);
+		parametres.setNbSimulations(10);
 		parametres.setNbGraines(100);
-		parametres.setPourcentageGrainesConservees(50);
+		parametres.setPourcentageGrainesConservees(10);
 		parametres.setNbIterations(1_000);
 		parametres.setAmplitudeIteration(0.01);
 		parametres.setFrequenceAffichageIterations(20);
 		parametres.setPointsX(new double[] {-15, 15});
 		parametres.setPointsY(new double[] {-15, 20});
+		parametres.setEchelle(2);
 		parametres.setAffichage(true);
 		
 		parametres.setCouleurCourbe(Color.BLUE);
@@ -63,6 +65,7 @@ public class MainSimulationMultipleDegre5 {
 		
 		DecimalFormat df = new DecimalFormat("###,###,###");
 		System.out.println("nbSimulations : " + df.format(Simulation.nbSimulations));
+		System.out.println("nbGraines : " + df.format(GraineEvaluable.nbGraines));
 		System.out.println("Meilleure graine : " + simulation.graineEnTete());
 		
 		for(int i=0; i<init.length; i++) {

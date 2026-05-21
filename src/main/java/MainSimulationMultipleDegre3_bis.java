@@ -37,8 +37,8 @@ public class MainSimulationMultipleDegre3_bis {
 		parametres.setAmplitudeIteration(0.10);
 		parametres.setFrequenceAffichageIterations(20);
 		parametres.setFrequenceAffichage(100);
-		parametres.setPointsX(new double[] {-15, 15});
-		parametres.setPointsY(new double[] {-15, 20});
+		parametres.setPointsX(new double[] {-15, -1, 15});
+		parametres.setPointsY(new double[] {-15, 10, 20});
 
 		parametres.setAffichage(true);
 		

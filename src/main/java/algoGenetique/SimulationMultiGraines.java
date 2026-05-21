@@ -3,7 +3,6 @@ package algoGenetique;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -35,9 +34,7 @@ public class SimulationMultiGraines {
 			simulationsMultiGraines[i] = new SimulationGraine(parametres, graines[i], i);
 		}
 		if(parametres.isAffichage()) {
-			Pair<Double, Double> minMaxX = parametres.minMaxX();
-			Pair<Double, Double> minMaxY = parametres.minMaxY();
-			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), minMaxX.getX(), minMaxY.getX(), parametres.getEchelle());
+			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), parametres.getMinX(), parametres.getMinY(), parametres.getEchelle());
 			listeCouleurs = parametres.getListeCouleurs();
 			dessinerCourbes();
 		}
