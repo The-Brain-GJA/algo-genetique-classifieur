@@ -30,28 +30,20 @@ public class MainSimulationMultipleDivers {
 		System.out.println("Test simulation");
 		
 		ParametresGenerateur parametres = new ParametresGenerateur();
-		parametres.setNbSimulations(1);
-		parametres.setNbGraines(100);
-		parametres.setPourcentageGrainesConservees(50);
-		parametres.setNbIterations(1_000);
-		parametres.setAmplitudeIteration(0.10);
+		parametres.setNbSimulations(10);
+		parametres.setNbGraines(10);
+		parametres.setPourcentageGrainesConservees(20);
+		parametres.setNbIterations(10_000);
+		parametres.setAmplitudeIteration(1.10);
 		parametres.setFrequenceAffichageIterations(20);
-		double xmin = -15;
-		double ymin = -15;
-		double xmax = 15;
-		double ymax = 20;
-		
-		parametres.setMinX(xmin);
-		parametres.setMinY(ymin);
-		parametres.setMaxX(xmax);
-		parametres.setMaxY(ymax);
+		parametres.setPointsX(new double[] {-15, 15});
+		parametres.setPointsY(new double[] {-15, 30});
 		parametres.setAffichage(true);
 		
-		parametres.setCouleurCourbe(Color.BLUE);
-		parametres.setCouleurPoints(Color.GRAY);
+		parametres.setCouleurCourbe(Color.RED);
+		parametres.setCouleurPoints(Color.BLUE);
 		
-		ToDoubleBiFunction<Graine, Double> courbe =
-				(g, x) -> g.get(0) * x + g.get(1); 
+		ToDoubleBiFunction<Graine, Double> courbe = (g, x) -> g.get(0) * x + g.get(1); 
 //
 //		ToDoubleFunction<Graine> fonctionEvaluation = 
 //					g -> Math.pow(courbe.applyAsDouble(g, xmin) - ymin, 2)
@@ -67,7 +59,7 @@ public class MainSimulationMultipleDivers {
 //	    		new Graine(new double[] {-1, -1, -1, -1, -1, -1, -1}),
 //	    		new Graine(new double[] {0.006, -0.2, -0.001, 0.03, -0.02, 0.10, 10.09}),
 //	    		new Graine(new double[] {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5}),
-	    		new Graine(new double[] {0, 0, 0, 0, 0, 0, 0})
+	    		new Graine(new double[] {0, 0})
 			};
 		
 		SimulationMultiGraines simulation = new SimulationMultiGraines(parametres, init);

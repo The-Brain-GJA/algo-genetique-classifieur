@@ -2,7 +2,6 @@
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.function.ToDoubleBiFunction;
-import java.util.function.ToDoubleFunction;
 
 import algoGenetique.Graine;
 import algoGenetique.ParametresGenerateur;
@@ -36,15 +35,8 @@ public class MainSimulationMultipleDegre5 {
 		parametres.setNbIterations(1_000);
 		parametres.setAmplitudeIteration(0.01);
 		parametres.setFrequenceAffichageIterations(20);
-		double xmin = -15;
-		double ymin = -15;
-		double xmax = 15;
-		double ymax = 20;
-		
-		parametres.setMinX(xmin);
-		parametres.setMinY(ymin);
-		parametres.setMaxX(xmax);
-		parametres.setMaxY(ymax);
+		parametres.setPointsX(new double[] {-15, 15});
+		parametres.setPointsY(new double[] {-15, 20});
 		parametres.setAffichage(true);
 		
 		parametres.setCouleurCourbe(Color.BLUE);
@@ -53,10 +45,6 @@ public class MainSimulationMultipleDegre5 {
 		ToDoubleBiFunction<Graine, Double> courbe =
 				(g, x) -> g.get(0) * Math.pow(x, 3) + g.get(1) * Math.pow(x, 2) + g.get(2) * x + g.get(3)
 					+ g.get(4) * Math.pow(x, 4) + g.get(5) * Math.pow(x, 5); 
-
-		ToDoubleFunction<Graine> fonctionEvaluation = 
-					g -> Math.pow(courbe.applyAsDouble(g, xmin) - ymin, 2)
-						+ Math.pow(courbe.applyAsDouble(g, xmax) - ymax, 2);
 
 		parametres.setCourbe(courbe);
 

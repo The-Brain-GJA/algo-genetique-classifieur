@@ -35,15 +35,8 @@ public class MainCalculInitFonction {
 		parametres.setNbSimulations(1_000);
 		parametres.setPourcentageGrainesConservees(20);
 		parametres.setAmplitudeIteration(0.0001);
-		double xmin = -20;
-		double ymin = -20;
-		double xmax = 50;
-		double ymax = 20;
-		
-		parametres.setMinX(xmin);
-		parametres.setMinY(ymin);
-		parametres.setMaxX(xmax);
-		parametres.setMaxY(ymax);
+		parametres.setPointsX(new double[] {-15, 15});
+		parametres.setPointsY(new double[] {-15, 20});
 		parametres.setAffichage(true);
 		
 		parametres.setCouleurCourbe(Color.BLUE);
@@ -52,10 +45,6 @@ public class MainCalculInitFonction {
 		ToDoubleBiFunction<Graine, Double> courbe =
 				(g, x) -> g.get(0) * Math.pow(x, 3) + g.get(1) * Math.pow(x, 2) + g.get(2) * x + g.get(3)
 					+ g.get(4) * Math.pow(x, 4) + g.get(5) * Math.pow(x, 5); 
-
-		ToDoubleFunction<Graine> fonctionEvaluation = 
-					g -> Math.pow(courbe.applyAsDouble(g, xmin) - ymin, 2)
-						+ Math.pow(courbe.applyAsDouble(g, xmax) - ymax, 2);
 
 		parametres.setCourbe(courbe);
 

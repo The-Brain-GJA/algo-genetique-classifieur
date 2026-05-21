@@ -1,8 +1,12 @@
 package algoGenetique;
 
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 import java.util.function.ToDoubleBiFunction;
 import java.util.function.ToDoubleFunction;
+
+import outils.Pair;
 
 public class ParametresGenerateur {
 
@@ -19,27 +23,36 @@ public class ParametresGenerateur {
 	private int largeurEcran = 800;
 	private final int hauteurEcran = 600;
 	private int echelle = 10;
-	private double minX = -15;
-	private double minY = -15;
-	private double maxX = 15;
-	private double maxY = 20;
+	private double pointsX[] = {-15, 0, 15};
+	private double pointsY[] = {-15, 10, 20};
+	
 	
 	private Color couleurCourbe = Color.RED;
 	private Color couleurPoints = Color.GRAY;
 	private Color couleurRepere = Color.BLACK;
-	public Color[] listeCouleurs = { Color.BLUE, Color.CYAN, Color.RED, Color.GREEN, Color.GRAY };
+	private Color[] listeCouleurs = { Color.BLUE, Color.CYAN, Color.RED, Color.GREEN, Color.GRAY };
 	public double pasCourbe = 1;
+	private int frequenceAffichage = 10; // Une image sur 10
 
 	
-	// Fonction d'évaluation
+	// Fonction à trouver
 	private ToDoubleBiFunction<Graine, Double> courbe =
 			(g, x) -> g.get(0) * Math.pow(x, 3) + g.get(1) * Math.pow(x, 2) + g.get(2) * x + g.get(3); 
 
 	 // En début de simulation, le but est d'avoir F(MIN_X) = MIN_Y et F(MAX_X) = MAX_Y
 	 // On additionne le carré des différences
+//	private ToDoubleFunction<Graine> fonctionEvaluation = 
+//				g -> Math.pow(courbe.applyAsDouble(g, minX[0]) - minY[0], 2)
+//					+ Math.pow(courbe.applyAsDouble(g, minX[1]) - minX[1], 2);
+
 	private ToDoubleFunction<Graine> fonctionEvaluation = 
-				g -> Math.pow(courbe.applyAsDouble(g, minX) - minY, 2)
-					+ Math.pow(courbe.applyAsDouble(g, maxX) - maxY, 2);
+				g -> {
+					double valeur = 0;
+					for(int i=0; i<pointsX.length; i++) {
+						valeur += Math.pow(courbe.applyAsDouble(g, pointsX[i]) - pointsY[i], 2);
+					}
+					return valeur;
+				};
 
 				
 	public ParametresGenerateur() {
@@ -49,6 +62,16 @@ public class ParametresGenerateur {
 		this.nbGraines = nbGraines;
 		this.nbSimulations = nbSimulations;
 		this.amplitudeIteration = amplitudeIteration;
+	}
+
+	public Pair<Double, Double> minMaxX() {
+        DoubleSummaryStatistics stat = Arrays.stream(pointsX).summaryStatistics();
+        return Pair.of(stat.getMin(), stat.getMax());
+	}
+
+	public Pair<Double, Double> minMaxY() {
+        DoubleSummaryStatistics stat = Arrays.stream(pointsX).summaryStatistics();
+        return Pair.of(stat.getMin(), stat.getMax());
 	}
 
 	public double getAmplitudeIteration() {
@@ -83,37 +106,6 @@ public class ParametresGenerateur {
 		this.pourcentageGrainesConservees = pourcentageGrainesConservees;
 	}
 
-	public double getMinX() {
-		return minX;
-	}
-
-	public void setMinX(double minX) {
-		this.minX = minX;
-	}
-
-	public double getMinY() {
-		return minY;
-	}
-
-	public void setMinY(double minY) {
-		this.minY = minY;
-	}
-
-	public double getMaxX() {
-		return maxX;
-	}
-
-	public void setMaxX(double maxX) {
-		this.maxX = maxX;
-	}
-
-	public double getMaxY() {
-		return maxY;
-	}
-
-	public void setMaxY(double maxY) {
-		this.maxY = maxY;
-	}
 
 	public ToDoubleBiFunction<Graine, Double> getCourbe() {
 		return courbe;
@@ -213,6 +205,38 @@ public class ParametresGenerateur {
 
 	public void setPasCourbe(double pasCourbe) {
 		this.pasCourbe = pasCourbe;
+	}
+
+	public int getFrequenceAffichage() {
+		return frequenceAffichage;
+	}
+
+	public void setFrequenceAffichage(int frequenceAffichage) {
+		this.frequenceAffichage = frequenceAffichage;
+	}
+
+	public double[] getPointsX() {
+		return pointsX;
+	}
+
+	public double getPointsX(int i) {
+		return pointsX[i];
+	}
+
+	public void setPointsX(double[] pointsX) {
+		this.pointsX = pointsX;
+	}
+
+	public double[] getPointsY() {
+		return pointsY;
+	}
+
+	public double getPointsY(int i) {
+		return pointsY[i];
+	}
+
+	public void setPointsY(double[] pointsY) {
+		this.pointsY = pointsY;
 	}
 
 	

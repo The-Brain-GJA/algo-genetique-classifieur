@@ -30,21 +30,16 @@ public class MainSimulationMultipleDegre3_bis {
 		System.out.println("Test simulation");
 		
 		ParametresGenerateur parametres = new ParametresGenerateur();
-		parametres.setNbSimulations(1);
+		parametres.setNbSimulations(10);
 		parametres.setNbGraines(100);
 		parametres.setPourcentageGrainesConservees(50);
 		parametres.setNbIterations(1_000);
 		parametres.setAmplitudeIteration(0.10);
 		parametres.setFrequenceAffichageIterations(20);
-		double xmin = -15;
-		double ymin = -15;
-		double xmax = 15;
-		double ymax = 20;
-		
-		parametres.setMinX(xmin);
-		parametres.setMinY(ymin);
-		parametres.setMaxX(xmax);
-		parametres.setMaxY(ymax);
+		parametres.setFrequenceAffichage(100);
+		parametres.setPointsX(new double[] {-15, 15});
+		parametres.setPointsY(new double[] {-15, 20});
+
 		parametres.setAffichage(true);
 		
 		parametres.setCouleurCourbe(Color.BLUE);

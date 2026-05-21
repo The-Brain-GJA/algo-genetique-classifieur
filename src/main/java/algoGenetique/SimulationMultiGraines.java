@@ -35,7 +35,9 @@ public class SimulationMultiGraines {
 			simulationsMultiGraines[i] = new SimulationGraine(parametres, graines[i], i);
 		}
 		if(parametres.isAffichage()) {
-			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), parametres.getMinX(), parametres.getMinY(), parametres.getEchelle());
+			Pair<Double, Double> minMaxX = parametres.minMaxX();
+			Pair<Double, Double> minMaxY = parametres.minMaxY();
+			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), minMaxX.getX(), minMaxY.getX(), parametres.getEchelle());
 			listeCouleurs = parametres.getListeCouleurs();
 			dessinerCourbes();
 		}
@@ -53,7 +55,9 @@ public class SimulationMultiGraines {
 			for(int j=0; j<simulationsMultiGraines.length; j++) {
 				simulationsMultiGraines[j].iteration();
 				//Arrays.sort(simulationsMultiGraines);
-				dessinerCourbes();
+				if(i % parametres.getFrequenceAffichage() == 0) {
+					dessinerCourbes();
+				}
 			}
 			if(i > 0 && i % (nbIterations * parametres.getFrequenceAffichageIterations() / 100) == 0) {
 				System.out.println("Traitement de l'itération " + i + " / " + nbIterations);
@@ -83,11 +87,13 @@ public class SimulationMultiGraines {
 			Graine g = simulationsMultiGraines[i].graineEnTete();
 			fonctions[i] = x -> parametres.getCourbe().applyAsDouble(g, x);
 		}
-		 
-		Point2D[] points = {
-				new Point2D.Double(parametres.getMinX(), parametres.getMinY()),
-				new Point2D.Double(parametres.getMaxX(), parametres.getMaxY())
-		};
+
+		Point2D[] points = new Point2D[parametres.getPointsX().length];
+		for(int i=0; i<parametres.getPointsX().length; i++) {
+			points[i] = new Point2D.Double(parametres.getPointsX()[i], parametres.getPointsY()[i]);
+		}
+
+		
 		List<ObjetDessin> dessins = new ArrayList<>();
 		dessins.add(new Repere(ecran, parametres.getCouleurRepere()));
 		dessins.add(new Cluster(ecran, points, parametres.getCouleurPoints()));

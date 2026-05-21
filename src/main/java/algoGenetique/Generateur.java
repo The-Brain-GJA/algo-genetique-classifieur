@@ -11,6 +11,7 @@ import affichage.Courbe;
 import affichage.Ecran;
 import affichage.ObjetDessin;
 import affichage.Repere;
+import outils.Pair;
 
 /**
  * Classe qui gère les calculs de valeurs
@@ -41,7 +42,9 @@ public class Generateur {
 		
 		// Affichage
 		if(parametres.isAffichage()) {
-			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), parametres.getMinX(), parametres.getMinY(), parametres.getEchelle());
+			Pair<Double, Double> minMaxX = parametres.minMaxX();
+			Pair<Double, Double> minMaxY = parametres.minMaxY();
+			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), minMaxX.getX(), minMaxY.getX(), parametres.getEchelle());
 			dessinerCourbe();
 		}
 	}
@@ -53,8 +56,8 @@ public class Generateur {
 
 		DoubleUnaryOperator fonction = x -> parametres.getCourbe().applyAsDouble(graines[0], x);
 		Point2D[] points = {
-				new Point2D.Double(parametres.getMinX(), parametres.getMinY()),
-				new Point2D.Double(parametres.getMaxX(), parametres.getMaxY())
+				new Point2D.Double(parametres.getPointsX(0), parametres.getPointsY(0)),
+				new Point2D.Double(parametres.getPointsX(1), parametres.getPointsY(1))
 		};
 		List<ObjetDessin> dessins = List.of(
 				new Repere(ecran, parametres.getCouleurRepere()),

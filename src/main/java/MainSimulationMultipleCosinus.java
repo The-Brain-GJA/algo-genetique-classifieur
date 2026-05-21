@@ -1,7 +1,6 @@
 
 import java.awt.Color;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.function.ToDoubleBiFunction;
 
 import algoGenetique.Graine;
@@ -35,18 +34,13 @@ public class MainSimulationMultipleCosinus {
 		parametres.setNbSimulations(10);
 		parametres.setNbGraines(10);
 		parametres.setPourcentageGrainesConservees(20);
-		parametres.setNbIterations(500);
+		parametres.setNbIterations(10_000);
 		parametres.setAmplitudeIteration(0.01);
 		parametres.setFrequenceAffichageIterations(20);
-		double xmin = -15;
-		double ymin = -15;
-		double xmax = 15;
-		double ymax = 20;
-		parametres.setMinX(xmin);
-		parametres.setMinY(ymin);
-		parametres.setMaxX(xmax);
-		parametres.setMaxY(ymax);
+		parametres.setPointsX(new double[] {-15, 15});
+		parametres.setPointsY(new double[] {-15, 20});
 		parametres.setAffichage(true);
+		parametres.setFrequenceAffichage(100);
 		
 		parametres.setPasCourbe(0.5);
 		parametres.setCouleurCourbe(Color.BLUE);
@@ -56,14 +50,26 @@ public class MainSimulationMultipleCosinus {
 
 		parametres.setCourbe(courbe);
 
+		/*
+		 Graine 0 : [28.192957899060378, 23.0187299685631, 18.491626179443973, 12.535398402380386] : 9.262036461542419E-20
+		Graine 1 : [17.690366851062148, 10.872570803419617, 10.06438097038432, 2.6742979469337613] : 1.2524323971649263E-20
+		Graine 2 : [30.141623863031587, -0.6535262973475092, 8.012220294667099, 9.602647491613164] : 2.303527994736714E-16
+		Graine 3 : [23.46106474720827, -1.9434961366452423, 16.149913610612177, 7.61551709868336] : 9.537705458889097E-18
+		Graine 4 : [30.237583547515978, -0.6519315947587457, 7.997247738288775, 9.71446930482905] : 1.1770735946365126E-17
+
+		 */
 
 		Graine[] init = new Graine[] {
     		new Graine(new double[] {20, 20, 20, 20}),
     		new Graine(new double[] {10,  10, 10, 10}),
     		new Graine(new double[] {30, 0, 10, 10}),
-    		new Graine(new double[] {10, 0, 20, 20})
+    		new Graine(new double[] {10, 0, 20, 20}),
+    		new Graine(new double[] {30.245548044248075, -0.6516739049527546, 7.998569213396938, 9.709059371245282})
 		};
 		
+		// Graine 2 : [29.946279236447847, -0.6577327043627059, 8.027119716996502, 9.4545855281383] : 1.8994155153878666E-6
+		Graine g = new Graine(new double[] {10, 0, 20, 20});
+		System.out.println("F(graine) = " + courbe.applyAsDouble(g, 15.0));
 		
 		SimulationMultiGraines simulation = new SimulationMultiGraines(parametres, init);
 		
