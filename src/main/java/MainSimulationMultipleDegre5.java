@@ -30,10 +30,12 @@ public class MainSimulationMultipleDegre5 {
 		System.out.println("Test simulation");
 		
 		ParametresGenerateur parametres = new ParametresGenerateur();
-		parametres.setNbGraines(10);
-		parametres.setNbSimulations(1_000);
-		parametres.setPourcentageGrainesConservees(20);
-		parametres.setAmplitudeIteration(0.001);
+		parametres.setNbSimulations(1);
+		parametres.setNbGraines(100);
+		parametres.setPourcentageGrainesConservees(50);
+		parametres.setNbIterations(1_000);
+		parametres.setAmplitudeIteration(0.01);
+		parametres.setFrequenceAffichageIterations(20);
 		double xmin = -15;
 		double ymin = -15;
 		double xmax = 15;

@@ -1,18 +1,16 @@
 
 import java.awt.Color;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.function.ToDoubleBiFunction;
 
 import algoGenetique.Graine;
 import algoGenetique.GraineEvaluable;
 import algoGenetique.ParametresGenerateur;
 import algoGenetique.Simulation;
-import algoGenetique.SimulationGraine;
 import algoGenetique.SimulationMultiGraines;
 import outils.Timer;
 
-public class MainSimulationMultipleCosinus {
+public class MainSimulationMultipleDivers {
 	
 	/*
 	 * set datafile separator comma
@@ -22,7 +20,7 @@ public class MainSimulationMultipleCosinus {
 	 * 
 	 */
 
-	// Tester : equation du 5ème degré
+	// Tester : equation du 3ème degré
 	
 
 	public static void main(String[] args) {
@@ -32,38 +30,45 @@ public class MainSimulationMultipleCosinus {
 		System.out.println("Test simulation");
 		
 		ParametresGenerateur parametres = new ParametresGenerateur();
-		parametres.setNbSimulations(10);
-		parametres.setNbGraines(10);
-		parametres.setPourcentageGrainesConservees(20);
-		parametres.setNbIterations(500);
-		parametres.setAmplitudeIteration(0.01);
+		parametres.setNbSimulations(1);
+		parametres.setNbGraines(100);
+		parametres.setPourcentageGrainesConservees(50);
+		parametres.setNbIterations(1_000);
+		parametres.setAmplitudeIteration(0.10);
 		parametres.setFrequenceAffichageIterations(20);
 		double xmin = -15;
 		double ymin = -15;
 		double xmax = 15;
 		double ymax = 20;
+		
 		parametres.setMinX(xmin);
 		parametres.setMinY(ymin);
 		parametres.setMaxX(xmax);
 		parametres.setMaxY(ymax);
 		parametres.setAffichage(true);
 		
-		parametres.setPasCourbe(0.5);
 		parametres.setCouleurCourbe(Color.BLUE);
 		parametres.setCouleurPoints(Color.GRAY);
 		
-		ToDoubleBiFunction<Graine, Double> courbe = (g, x) -> g.get(0) * Math.cos(g.get(1) + 1 / g.get(2) * x) + g.get(3); 
-
+		ToDoubleBiFunction<Graine, Double> courbe =
+				(g, x) -> g.get(0) * x + g.get(1); 
+//
+//		ToDoubleFunction<Graine> fonctionEvaluation = 
+//					g -> Math.pow(courbe.applyAsDouble(g, xmin) - ymin, 2)
+//						+ Math.pow(courbe.applyAsDouble(g, xmax) - ymax, 2);
+//
 		parametres.setCourbe(courbe);
 
-
-		Graine[] init = new Graine[] {
-    		new Graine(new double[] {20, 20, 20, 20}),
-    		new Graine(new double[] {10,  10, 10, 10}),
-    		new Graine(new double[] {30, 0, 10, 10}),
-    		new Graine(new double[] {10, 0, 20, 20})
-		};
+		//XXX
+		// voir pourquoi ça marche moyen alors que c'est facile !
 		
+		Graine[] init = new Graine[] {
+	    		new Graine(new double[] {-0.04, -0.58}),
+//	    		new Graine(new double[] {-1, -1, -1, -1, -1, -1, -1}),
+//	    		new Graine(new double[] {0.006, -0.2, -0.001, 0.03, -0.02, 0.10, 10.09}),
+//	    		new Graine(new double[] {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5}),
+	    		new Graine(new double[] {0, 0, 0, 0, 0, 0, 0})
+			};
 		
 		SimulationMultiGraines simulation = new SimulationMultiGraines(parametres, init);
 		
@@ -76,7 +81,6 @@ public class MainSimulationMultipleCosinus {
 		DecimalFormat df = new DecimalFormat("###,###,###");
 		System.out.println("nbSimulations : " + df.format(Simulation.nbSimulations));
 		System.out.println("nbGraines : " + df.format(GraineEvaluable.nbGraines));
-		System.out.println("nbSimulationGraine : " + df.format(SimulationGraine.nbSimulationsGraine));
 		System.out.println("Meilleure graine : " + simulation.graineEnTete());
 
 		for(int i=0; i<init.length; i++) {

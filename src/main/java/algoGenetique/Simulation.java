@@ -21,6 +21,9 @@ public class Simulation implements Comparable<Simulation> {
 			graines[i] = new GraineEvaluable(parametres.getFonctionEvaluation(), graineInitiale);
 		}
 		this.indiceDepart = parametres.getNbGraines() * parametres.getPourcentageGrainesConservees() / 100;
+		if(this.indiceDepart == 0) {
+			this.indiceDepart = 1;
+		}
 		nbSimulations++;
 	}
 	
@@ -32,6 +35,12 @@ public class Simulation implements Comparable<Simulation> {
 			graines[i].secouer(parametres.getAmplitudeIteration());
 		}
 		Arrays.sort(graines);
+		// Réplication des n meilleurs graines
+		int pas = indiceDepart;
+		for(int i=indiceDepart; i<graines.length; i++) {
+			int indiceReference = i % indiceDepart;
+			graines[i] = graines[indiceReference].clone();
+		}
 	}
 
 	@Override

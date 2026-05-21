@@ -36,7 +36,7 @@ public class Generateur {
 		this.indiceDepart = parametres.getNbGraines() * parametres.getPourcentageGrainesConservees() / 100;
 
 		for (int i=0; i<this.graines.length; i++) {
-			this.graines[i] = new GraineEvaluable(evaluation, graines.clone());
+			this.graines[i] = new GraineEvaluable(evaluation, graines);
 		}
 		
 		// Affichage

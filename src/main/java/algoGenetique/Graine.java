@@ -7,7 +7,7 @@ public class Graine {
 	private double[] valeurs;
 	
 	public Graine(double... valeurs) {
-		this.valeurs = valeurs;
+		this.valeurs = valeurs.clone();
 	}
 
 	public double[] getGraine() {
@@ -42,7 +42,7 @@ public class Graine {
 	
 	@Override
 	protected Graine clone() {
-		return new Graine(valeurs.clone());
+		return new Graine(valeurs);
 	}
 
 

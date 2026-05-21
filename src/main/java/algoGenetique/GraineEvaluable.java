@@ -22,12 +22,16 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 	}
 
 	public GraineEvaluable(ToDoubleFunction<Graine> fonctionEvaluation, Graine graine) {
-		this(fonctionEvaluation, graine.getValeurs().clone());
+		this(fonctionEvaluation, graine.getValeurs());
 	}
 
 	public void secouer(double amplitude) {
+		//double seuil = 0;
 		for (int i=0; i<nbGraines(); i++) {
-			modifierElement(i, getGraine()[i] + GenerationAleatoire.random(amplitude));
+			double r = GenerationAleatoire.random(amplitude);
+			//if(r < seuil) {
+				modifierElement(i, getGraine()[i] + GenerationAleatoire.random(amplitude));
+			//}
 		}
 		evaluer();
 	}
@@ -55,6 +59,10 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 		return evaluation;
 	}
 	
+	@Override
+	protected GraineEvaluable clone() {
+		return new GraineEvaluable(fonctionEvaluation, getValeurs());
+	}
 	
 	
 }
