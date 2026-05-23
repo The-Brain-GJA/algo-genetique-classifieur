@@ -9,11 +9,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.DoubleUnaryOperator;
 
-import affichage.Cluster;
-import affichage.Courbe;
+import affichage.DessinCluster;
+import affichage.DessinCourbe;
 import affichage.Ecran;
 import affichage.ObjetDessin;
-import affichage.Repere;
+import affichage.DessinRepere;
 import outils.Pair;
 
 /**
@@ -90,12 +90,11 @@ public class SimulationMultiGraines {
 			points[i] = new Point2D.Double(parametres.getPointsX()[i], parametres.getPointsY()[i]);
 		}
 
-		
 		List<ObjetDessin> dessins = new ArrayList<>();
-		dessins.add(new Repere(ecran, parametres.getCouleurRepere()));
-		dessins.add(new Cluster(ecran, points, parametres.getCouleurPoints()));
+		dessins.add(new DessinRepere(ecran, parametres.getCouleurRepere()));
+		dessins.add(new DessinCluster(ecran, points, parametres.getCouleurPoints()));
 		for(int i=0; i<fonctions.length; i++) {
-			dessins.add(new Courbe(ecran, fonctions[i], listeCouleurs[i % listeCouleurs.length], parametres.getPasCourbe()));
+			dessins.add(new DessinCourbe(ecran, fonctions[i], listeCouleurs[i % listeCouleurs.length], parametres.getPasCourbe()));
 		}
 		ecran.dessiner(dessins);
 	}

@@ -21,9 +21,6 @@ public class MainSimulationMultipleCosinus {
 	 * 
 	 */
 
-	// Tester : equation du 5ème degré
-	
-
 	public static void main(String[] args) {
 		
 		Timer timer = Timer.getTimer("Algo génétique");
@@ -34,7 +31,7 @@ public class MainSimulationMultipleCosinus {
 		parametres.setNbSimulations(10);
 		parametres.setNbGraines(10);
 		parametres.setPourcentageGrainesConservees(20);
-		parametres.setNbIterations(100_000);
+		parametres.setNbIterations(60_000);
 		parametres.setAmplitudeIteration(0.001);
 		parametres.setFrequenceAffichageIterations(20);
 //		parametres.setPointsX(new double[] {-15, 15});
@@ -51,18 +48,10 @@ public class MainSimulationMultipleCosinus {
 		parametres.setCouleurCourbe(Color.BLUE);
 		parametres.setCouleurPoints(Color.GRAY);
 		
-		ToDoubleBiFunction<Graine, Double> courbe = (g, x) -> g.get(0) * Math.cos(g.get(1) + 1 / g.get(2) * x) + g.get(3); 
+		ToDoubleBiFunction<Graine, Double> courbe = (g, x) -> g.get(0) * Math.cos(g.get(1) + 1 / g.get(2) * x)
+				+ g.get(3); 
 
 		parametres.setCourbe(courbe);
-
-		/*
-		 Graine 0 : [28.192957899060378, 23.0187299685631, 18.491626179443973, 12.535398402380386] : 9.262036461542419E-20
-		Graine 1 : [17.690366851062148, 10.872570803419617, 10.06438097038432, 2.6742979469337613] : 1.2524323971649263E-20
-		Graine 2 : [30.141623863031587, -0.6535262973475092, 8.012220294667099, 9.602647491613164] : 2.303527994736714E-16
-		Graine 3 : [23.46106474720827, -1.9434961366452423, 16.149913610612177, 7.61551709868336] : 9.537705458889097E-18
-		Graine 4 : [30.237583547515978, -0.6519315947587457, 7.997247738288775, 9.71446930482905] : 1.1770735946365126E-17
-
-		 */
 
 		Graine[] init = new Graine[] {
     		new Graine(new double[] {20, 20, 20, 20}),

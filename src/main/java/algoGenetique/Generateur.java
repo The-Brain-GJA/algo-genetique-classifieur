@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 import java.util.function.ToDoubleFunction;
 
-import affichage.Cluster;
-import affichage.Courbe;
+import affichage.DessinCluster;
+import affichage.DessinCourbe;
 import affichage.Ecran;
 import affichage.ObjetDessin;
-import affichage.Repere;
+import affichage.DessinRepere;
 import outils.Pair;
 
 /**
@@ -60,9 +60,9 @@ public class Generateur {
 				new Point2D.Double(parametres.getPointsX(1), parametres.getPointsY(1))
 		};
 		List<ObjetDessin> dessins = List.of(
-				new Repere(ecran, parametres.getCouleurRepere()),
-				new Courbe(ecran, fonction, parametres.getCouleurCourbe(), parametres.getPasCourbe()),
-				new Cluster(ecran, points, parametres.getCouleurPoints()) 
+				new DessinRepere(ecran, parametres.getCouleurRepere()),
+				new DessinCourbe(ecran, fonction, parametres.getCouleurCourbe(), parametres.getPasCourbe()),
+				new DessinCluster(ecran, points, parametres.getCouleurPoints()) 
 		);
 		ecran.dessiner(dessins);
 	}

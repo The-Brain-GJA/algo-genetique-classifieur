@@ -5,17 +5,17 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.util.function.DoubleUnaryOperator;
 
-public class Courbe extends ObjetDessin {
+public class DessinCourbe extends ObjetDessin {
 
 	DoubleUnaryOperator fonction;
 	Color couleur;
 	double pas;
 	
-	public Courbe(Ecran ecran, DoubleUnaryOperator fonction, double pas) {
+	public DessinCourbe(Ecran ecran, DoubleUnaryOperator fonction, double pas) {
 		this(ecran, fonction, COULEUR_DEFAUT, pas);
 	}
 
-	public Courbe(Ecran ecran, DoubleUnaryOperator fonction, Color couleur, double pas) {
+	public DessinCourbe(Ecran ecran, DoubleUnaryOperator fonction, Color couleur, double pas) {
 		super(ecran);
 		this.fonction = fonction;
 		this.couleur = couleur;

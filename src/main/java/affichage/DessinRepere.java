@@ -3,13 +3,13 @@ package affichage;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class Repere extends ObjetDessin {
+public class DessinRepere extends ObjetDessin {
 
-	public Repere(Ecran ecran) {
+	public DessinRepere(Ecran ecran) {
 		this(ecran, COULEUR_DEFAUT);
 	}
 
-	public Repere(Ecran ecran, Color couleur) {
+	public DessinRepere(Ecran ecran, Color couleur) {
 		super(ecran);
 		this.couleur = couleur;
 	}

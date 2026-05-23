@@ -39,7 +39,7 @@ public class Ecran {
         frame.setSize(largeur+DECALAGE_W,hauteur+DECALAGE_H);
 	}
 
-	public void dessiner(List<ObjetDessin> dessins) {
+	public void dessiner(List<? extends ObjetDessin> dessins) {
         frame.add(new PanelEcran(this, dessins));
         frame.setVisible(true);
 	}

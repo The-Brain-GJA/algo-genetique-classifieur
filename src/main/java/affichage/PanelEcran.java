@@ -9,9 +9,9 @@ import javax.swing.JPanel;
 public class PanelEcran extends JPanel {
 	
 	Ecran ecran;
-	List<ObjetDessin> dessins;
+	List<? extends ObjetDessin> dessins;
 	
-	PanelEcran(Ecran ecran, List<ObjetDessin> dessins) {
+	PanelEcran(Ecran ecran, List<? extends ObjetDessin> dessins) {
 		this.ecran = ecran;
 		this.dessins = dessins;
 	}

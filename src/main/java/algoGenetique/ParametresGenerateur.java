@@ -31,7 +31,7 @@ public class ParametresGenerateur {
 	private Color couleurCourbe = Color.RED;
 	private Color couleurPoints = Color.GRAY;
 	private Color couleurRepere = Color.BLACK;
-	private Color[] listeCouleurs = { Color.BLUE, Color.CYAN, Color.RED, Color.GREEN, Color.GRAY };
+	private Color[] listeCouleurs = Constantes.listeCouleurs;
 	public double pasCourbe = 1;
 	private int frequenceAffichage = 100; // Une image sur 100
 
