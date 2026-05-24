@@ -48,10 +48,11 @@ public class MainChargementFichiers {
 		parametres.setCouleurPoints(Color.GRAY);
 
 		final String nomFichiercluster = "file_1.csv";
-		
 
 		SimulationCluster simulation = new SimulationCluster(parametres, nomFichiercluster);
 		
+		
+		//simulation.
 		
 		timer.afficher();
 	}

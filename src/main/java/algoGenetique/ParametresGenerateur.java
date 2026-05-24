@@ -15,8 +15,8 @@ public class ParametresGenerateur {
 	private int nbSimulations = 10;
 	private int pourcentageGrainesConservees = 10;
 	private int nbIterations = 10_000;
-
 	private int frequenceAffichageIterations = 10; // En pourcentage
+	private int nbClustersMax = 2;
 	
 	// Ecran
 	private boolean affichage = false;
@@ -260,5 +260,12 @@ public class ParametresGenerateur {
 		this.hauteurEcran = hauteurEcran;
 	}
 
+	public int getNbClustersMax() {
+		return nbClustersMax;
+	}
+
+	public void setNbClustersMax(int nbClustersMax) {
+		this.nbClustersMax = nbClustersMax;
+	}
 	
 }

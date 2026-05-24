@@ -33,28 +33,22 @@ public class DessinCluster extends ObjetDessin {
 	}
 
 	/**
-	 * Prend en entrée une liste de points avec 3 valeurs : X, Y et classe
-	 * Renvoie un objet par classe, avec une couleur diférente
+	 * Prend en entrée une liste de tableaux de points
+	 * Renvoie un objet par liste, avec une couleur diférente
 	 */
-	public static List<DessinCluster> getDessinCluster(Ecran ecran, List<double[]> valeurs) {
-		Map<Double, List<double[]>> map = valeurs.stream().collect(Collectors.groupingBy(d -> d[2]));
-		List<DessinCluster> dessins = new ArrayList<>(map.size());
-		AtomicInteger j = new AtomicInteger(0);
-		map.
-			forEach((classe, points) -> {
-				Point2D[] points2D = new Point2D[points.size()];
-				for(int i=0; i<points.size(); i++) {
-					points2D[i] = new Point2D.Double(points.get(i)[0], points.get(i)[1]);
-				}
-				dessins.add(new DessinCluster(ecran, points2D, Constantes.getCouleur(j.getAndIncrement())));
-			});
+	public static List<DessinCluster> getDessinCluster(Ecran ecran, List<Point2D[]> listeTableauxPoints) {
+		List<DessinCluster> dessins = new ArrayList<>(listeTableauxPoints.size());
+		int i = 0;
+		for (Point2D[] tableauPoints : listeTableauxPoints) {
+			dessins.add(new DessinCluster(ecran, tableauPoints, Constantes.getCouleur(i++)));
+		}
 		return dessins;
 	}
 	
 	@Override
 	public void dessiner(Graphics2D g) {
 		g.setColor(couleur);
-		BiConsumer<Double, Double> dessinerPoint = 
+		BiConsumer<Double, Double> dessinerPoint =
 			switch (typePoint) {
 			case CROIX -> (x,y) -> dessinerCroix(g, x, y);
 			case CARRE -> (x,y) -> dessinerCarre(g, x, y);
