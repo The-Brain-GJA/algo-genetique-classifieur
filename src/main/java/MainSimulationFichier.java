@@ -36,8 +36,8 @@ public class MainSimulationFichier {
 		parametres.setNbSimulations(10);
 		parametres.setNbGraines(10);
 		parametres.setPourcentageGrainesConservees(20);
-		parametres.setNbIterations(1_000);
-		parametres.setAmplitudeIteration(0.001);
+		parametres.setNbIterations(10_000);
+		parametres.setAmplitudeIteration(0.1);
 		parametres.setFrequenceAffichageIterations(20);
 		parametres.setMinX(-30);
 		parametres.setMinY(-30);

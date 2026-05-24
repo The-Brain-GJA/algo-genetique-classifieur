@@ -31,26 +31,35 @@ public class MainTestFonctionEvaluation {
 
 
 		ToDoubleFunction<Graine> fonctionEvaluation = 
-			g -> {
-				double valeur = 0;
+				g -> {
+					double valeur = 0;
 					
-				// Tous les points du cluster 1 doivent être au dessus de la courbe
-				for (Point2D point : listePoints.get(0)) {
-					valeur += courbe.applyAsDouble(g, point.getX()) <= point.getY() ? -1 : 1;
-					//valeur += Math.pow(parametres.getCourbe().applyAsDouble(g, point.getX()) - point.getY(), 3);
-				}
+					// Tous les points du cluster 1 doivent être au dessus de la courbe
+					// Si points au dessus : 0
+					// Si points en dessous : différence au carré
+					for (Point2D point : listePoints.get(0)) {
+						//valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) <= point.getY() ? -1 : 1;
+						double f_x = courbe.applyAsDouble(g, point.getX());
+						if(point.getY() < f_x) {
+							valeur += Math.pow(point.getY() - f_x, 2);
+						}
+					}
 
-				// Tous les points du cluster 2 doivent être en dessous de la courbe
-				for (Point2D point : listePoints.get(1)) {
-					valeur += courbe.applyAsDouble(g, point.getX()) >= point.getY() ? -1 : 1;
-				}
+					// Tous les points du cluster 2 doivent être en dessous de la courbe
+					for (Point2D point : listePoints.get(1)) {
+						//valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) >= point.getY() ? -1 : 1;
+						double f_x = courbe.applyAsDouble(g, point.getX());
+						if(point.getY() > f_x) {
+							valeur += Math.pow(point.getY() - f_x, 2);
+						}
+					}
 
 				return valeur;
 		};
 
 		Graine g = new Graine(new double[] {10,  10, 10, 10});
 	
-		ParametresGenerateur parametre = new ParametresGenerateur(1, 10, 1);
+		ParametresGenerateur parametre = new ParametresGenerateur(2, 10, 1);
 		
 		Simulation s = new Simulation(parametre, g);
 		s.majFonctionEvaluation(fonctionEvaluation);

@@ -40,14 +40,23 @@ public class SimulationCluster extends SimulationMultiGraines {
 					double valeur = 0;
 					
 					// Tous les points du cluster 1 doivent être au dessus de la courbe
+					// Si points au dessus : 0
+					// Si points en dessous : différence au carré
 					for (Point2D point : listePoints.get(0)) {
-						valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) <= point.getY() ? -1 : 1;
-						//valeur += Math.pow(parametres.getCourbe().applyAsDouble(g, point.getX()) - point.getY(), 3);
+						//valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) <= point.getY() ? -1 : 1;
+						double f_x = parametres.getCourbe().applyAsDouble(g, point.getX());
+						if(point.getY() < f_x) {
+							valeur += Math.pow(point.getY() - f_x, 2);
+						}
 					}
 
 					// Tous les points du cluster 2 doivent être en dessous de la courbe
 					for (Point2D point : listePoints.get(1)) {
-						valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) >= point.getY() ? -1 : 1;
+						//valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) >= point.getY() ? -1 : 1;
+						double f_x = parametres.getCourbe().applyAsDouble(g, point.getX());
+						if(point.getY() > f_x) {
+							valeur += Math.pow(point.getY() - f_x, 2);
+						}
 					}
 
 					return valeur;
