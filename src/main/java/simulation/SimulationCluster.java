@@ -5,60 +5,65 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.DoubleUnaryOperator;
+import java.util.function.ToDoubleFunction;
 
 import org.apache.commons.lang3.ArrayUtils;
 
 import affichage.DessinCluster;
 import affichage.DessinCourbe;
 import affichage.DessinRepere;
-import affichage.Ecran;
 import affichage.ObjetDessin;
 import algoGenetique.Constantes;
 import algoGenetique.Graine;
 import algoGenetique.ParametresGenerateur;
 import fichiers.LectureCluster;
 
-public class SimulationCluster {
+public class SimulationCluster extends SimulationMultiGraines {
 
-	ParametresGenerateur parametres;
-	SimulationGraine simulationsMultiGraines[];
-	Ecran ecran;
 	List<Point2D[]> listePoints;
 	
 	public SimulationCluster(ParametresGenerateur parametres, String nomFichier,  Graine... graines) throws IOException {
-		this.parametres = parametres;
+		super(parametres, graines);
 		LectureCluster lectureCluster = new LectureCluster();
 		listePoints = lectureCluster.lire(nomFichier);
-		simulationsMultiGraines = new SimulationGraine[graines.length];
-		for(int i=0; i<graines.length; i++) {
-			simulationsMultiGraines[i] = new SimulationGraine(parametres, graines[i], i);
-		}
 		// XXX à changer ?
 		if(listePoints.size() > parametres.getNbClustersMax()) {
 			fusionnerListes(0, 2);
 		}
-		if(parametres.isAffichage()) {
-			this.ecran = new Ecran(parametres.getLargeurEcran(), parametres.getHauteurEcran(), parametres.getMinX(), parametres.getMinY(), parametres.getEchelle());
-			dessinerCourbes();
-		}
+		majFonctionEvaluation();
 	}
 
-	public void simulation() {
-		int nbIterations = parametres.getNbIterations();
-		for(int i=0; i<nbIterations; i++) {
-			for(int j=0; j<simulationsMultiGraines.length; j++) {
-				simulationsMultiGraines[j].iteration();
-				if(i % parametres.getFrequenceAffichage() == 0) {
-					dessinerCourbes();
-				}
-			}
-			if(i > 0 && i % (nbIterations * parametres.getFrequenceAffichageIterations() / 100) == 0) {
-				System.out.println("Traitement de l'itération " + i + " / " + nbIterations);
-			}
-		}
-	}
+	// XXX pour le cas avec n > 2 classes : pour chaque classe, considérer tous les autres tableaux comme une seule classe
+	private void majFonctionEvaluation() {
+		ToDoubleFunction<Graine> fonctionEvaluation = 
+				g -> {
+					double valeur = 0;
+					
+					// Tous les points du cluster 1 doivent être au dessus de la courbe
+					for (Point2D point : listePoints.get(0)) {
+						valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) <= point.getY() ? -1 : 1;
+						//valeur += Math.pow(parametres.getCourbe().applyAsDouble(g, point.getX()) - point.getY(), 3);
+					}
 
-	
+					// Tous les points du cluster 2 doivent être en dessous de la courbe
+					for (Point2D point : listePoints.get(1)) {
+						valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) >= point.getY() ? -1 : 1;
+					}
+
+					return valeur;
+				};
+		parametres.setFonctionEvaluation(fonctionEvaluation);
+		
+		IO.println("Début de la MAJ de la fonction");
+		for (SimulationGraine simulation : simulationsMultiGraines) {
+			simulation.majFonctionEvaluation(fonctionEvaluation);
+		}
+		IO.println("Fin de la MAJ de la fonction");
+		
+		// XXX descendre en cascade sur toutes les graines ?
+		// XXX ou remonter la fonction au dessus des graines ?
+	}
+		
 	/**
 	 * Déplacement de la liste de l'indice2 dans celle de l'indice 2
 	 */
@@ -70,6 +75,7 @@ public class SimulationCluster {
 		listePoints.add(ArrayUtils.addAll(liste1, liste2));
 	}
 	
+	@Override
 	void dessinerCourbes() {
 		if(!parametres.isAffichage()) {
 			return;
@@ -83,14 +89,20 @@ public class SimulationCluster {
 		}
 
 		List<ObjetDessin> dessins = new ArrayList<>();
+		
 		dessins.add(new DessinRepere(ecran, parametres.getCouleurRepere()));
-		dessins.addAll(DessinCluster.getDessinCluster(ecran, listePoints));
+
+		if(listePoints != null) {
+			dessins.addAll(DessinCluster.getDessinCluster(ecran, listePoints));
+		}
 
 		
 		dessins.add(new DessinRepere(ecran, parametres.getCouleurRepere()));
+		
 		for(int i=0; i<fonctions.length; i++) {
 			dessins.add(new DessinCourbe(ecran, fonctions[i], Constantes.getCouleur(i), parametres.getPasCourbe()));
 		}
+		
 		ecran.dessiner(dessins);
 	}
 	

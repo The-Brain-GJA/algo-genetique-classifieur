@@ -1,6 +1,7 @@
 package simulation;
 
 import java.util.Arrays;
+import java.util.function.ToDoubleFunction;
 
 import algoGenetique.Graine;
 import algoGenetique.GraineEvaluable;
@@ -39,6 +40,12 @@ public class SimulationGraine {
 		return simulationsMonoGraine[0].graineEnTete();
 	}
 
+	public void majFonctionEvaluation(ToDoubleFunction<Graine> fonctionEvaluation) {
+		for (Simulation simulation : simulationsMonoGraine) {
+			simulation.majFonctionEvaluation(fonctionEvaluation);
+		}
+	}
+	
 	public Simulation[] getSimulations() {
 		return simulationsMonoGraine;
 	}
@@ -59,5 +66,5 @@ public class SimulationGraine {
 	public String toString() {
 		return Arrays.toString(simulationsMonoGraine);
 	}
-	
+
 }

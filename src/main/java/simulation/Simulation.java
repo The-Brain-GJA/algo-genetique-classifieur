@@ -1,6 +1,7 @@
 package simulation;
 
 import java.util.Arrays;
+import java.util.function.ToDoubleFunction;
 
 import algoGenetique.Graine;
 import algoGenetique.GraineEvaluable;
@@ -25,7 +26,7 @@ public class Simulation implements Comparable<Simulation> {
 			graines[i] = new GraineEvaluable(parametres.getFonctionEvaluation(), graineInitiale);
 		}
 		this.indiceDepart = parametres.getNbGraines() * parametres.getPourcentageGrainesConservees() / 100;
-		if(this.indiceDepart == 0) {
+		if(this.indiceDepart == 0 && parametres.getNbGraines() > 1) {
 			this.indiceDepart = 1;
 		}
 		nbSimulations++;
@@ -39,10 +40,11 @@ public class Simulation implements Comparable<Simulation> {
 			graines[i].secouer(parametres.getAmplitudeIteration());
 		}
 		Arrays.sort(graines);
+
 		// Réplication des n meilleurs graines
 		int pas = indiceDepart;
 		for(int i=indiceDepart; i<graines.length; i++) {
-			int indiceReference = i % indiceDepart;
+			int indiceReference = indiceDepart > 0 ? i % indiceDepart : 0;
 			graines[i] = graines[indiceReference].clone();
 		}
 	}
@@ -50,6 +52,12 @@ public class Simulation implements Comparable<Simulation> {
 	@Override
 	public int compareTo(Simulation o) {
 		return graines[0].compareTo(o.graines[0]);
+	}
+
+	public void majFonctionEvaluation(ToDoubleFunction<Graine> fonctionEvaluation) {
+		for (GraineEvaluable graine : graines) {
+			graine.setFonctionEvaluation(fonctionEvaluation);
+		}
 	}
 
 	public GraineEvaluable graineEnTete() {
@@ -72,4 +80,5 @@ public class Simulation implements Comparable<Simulation> {
 	public String toString() {
 		return Arrays.toString(graines);
 	}
+
 }

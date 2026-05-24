@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.text.DecimalFormat;
 import java.util.function.ToDoubleBiFunction;
-import java.util.function.ToDoubleFunction;
 
 import algoGenetique.Graine;
 import algoGenetique.GraineEvaluable;
@@ -14,7 +13,7 @@ import simulation.Simulation;
 import simulation.SimulationCluster;
 import simulation.SimulationGraine;
 
-public class MainChargementFichiers {
+public class MainSimulationFichier {
 	
 	/*
 	 * set datafile separator comma
@@ -37,7 +36,7 @@ public class MainChargementFichiers {
 		parametres.setNbSimulations(10);
 		parametres.setNbGraines(10);
 		parametres.setPourcentageGrainesConservees(20);
-		parametres.setNbIterations(60_000);
+		parametres.setNbIterations(1_000);
 		parametres.setAmplitudeIteration(0.001);
 		parametres.setFrequenceAffichageIterations(20);
 		parametres.setMinX(-30);

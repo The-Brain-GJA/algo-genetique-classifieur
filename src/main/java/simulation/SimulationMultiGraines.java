@@ -5,18 +5,16 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.DoubleUnaryOperator;
 
 import affichage.DessinCluster;
 import affichage.DessinCourbe;
+import affichage.DessinRepere;
 import affichage.Ecran;
 import affichage.ObjetDessin;
 import algoGenetique.Graine;
 import algoGenetique.GraineEvaluable;
 import algoGenetique.ParametresGenerateur;
-import affichage.DessinRepere;
 import outils.Pair;
 
 /**
@@ -24,11 +22,10 @@ import outils.Pair;
  */
 public class SimulationMultiGraines {
 
-	SimulationGraine simulationsMultiGraines[];
-	ParametresGenerateur parametres;
-	Ecran ecran;
-	ExecutorService executor;
-	Color[] listeCouleurs;
+	protected SimulationGraine simulationsMultiGraines[];
+	protected ParametresGenerateur parametres;
+	protected Ecran ecran;
+	protected Color[] listeCouleurs;
 	
 	public SimulationMultiGraines(ParametresGenerateur parametres, Graine... graines) {
 		this.parametres = parametres;
@@ -42,7 +39,7 @@ public class SimulationMultiGraines {
 			dessinerCourbes();
 		}
 		// XXX
-		executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+		//executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 		System.out.println("(multi) Création de " + simulationsMultiGraines.length + " simulations sur " + Runtime.getRuntime().availableProcessors() + " processeurs pour " + graines.length + " graines");
 	}
 	
@@ -54,7 +51,6 @@ public class SimulationMultiGraines {
 		for(int i=0; i<nbIterations; i++) {
 			for(int j=0; j<simulationsMultiGraines.length; j++) {
 				simulationsMultiGraines[j].iteration();
-				//Arrays.sort(simulationsMultiGraines);
 				if(i % parametres.getFrequenceAffichage() == 0) {
 					dessinerCourbes();
 				}
@@ -93,6 +89,7 @@ public class SimulationMultiGraines {
 			points[i] = new Point2D.Double(parametres.getPointsX()[i], parametres.getPointsY()[i]);
 		}
 
+		
 		List<ObjetDessin> dessins = new ArrayList<>();
 		dessins.add(new DessinRepere(ecran, parametres.getCouleurRepere()));
 		dessins.add(new DessinCluster(ecran, points, parametres.getCouleurPoints()));

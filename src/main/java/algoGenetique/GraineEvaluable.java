@@ -59,6 +59,15 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 		return evaluation;
 	}
 	
+	public ToDoubleFunction<Graine> getFonctionEvaluation() {
+		return fonctionEvaluation;
+	}
+
+	public void setFonctionEvaluation(ToDoubleFunction<Graine> fonctionEvaluation) {
+		this.fonctionEvaluation = fonctionEvaluation;
+		this.evaluer();
+	}
+
 	@Override
 	public GraineEvaluable clone() {
 		return new GraineEvaluable(fonctionEvaluation, getValeurs());
