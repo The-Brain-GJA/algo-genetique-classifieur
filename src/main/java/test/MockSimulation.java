@@ -5,7 +5,7 @@ import java.util.function.ToDoubleFunction;
 import algoGenetique.Graine;
 import algoGenetique.GraineEvaluable;
 import algoGenetique.ParametresGenerateur;
-import algoGenetique.Simulation;
+import simulation.Simulation;
 
 public class MockSimulation extends Simulation {
 

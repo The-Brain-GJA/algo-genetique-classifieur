@@ -6,10 +6,10 @@ import java.util.function.ToDoubleBiFunction;
 import algoGenetique.Graine;
 import algoGenetique.GraineEvaluable;
 import algoGenetique.ParametresGenerateur;
-import algoGenetique.Simulation;
-import algoGenetique.SimulationGraine;
-import algoGenetique.SimulationMultiGraines;
 import outils.Timer;
+import simulation.Simulation;
+import simulation.SimulationGraine;
+import simulation.SimulationMultiGraines;
 
 public class MainSimulationMultipleCosinus {
 	
@@ -34,8 +34,6 @@ public class MainSimulationMultipleCosinus {
 		parametres.setNbIterations(60_000);
 		parametres.setAmplitudeIteration(0.001);
 		parametres.setFrequenceAffichageIterations(20);
-//		parametres.setPointsX(new double[] {-15, 15});
-//		parametres.setPointsY(new double[] {-15, 20});
 		parametres.setPointsX(new double[] {-15, -1, 15});
 		parametres.setPointsY(new double[] {-15, 10, 20});
 		parametres.setMinX(-40);
@@ -60,7 +58,6 @@ public class MainSimulationMultipleCosinus {
     		new Graine(new double[] {10, 0, 20, 20})
 		};
 		
-		// Graine 2 : [29.946279236447847, -0.6577327043627059, 8.027119716996502, 9.4545855281383] : 1.8994155153878666E-6
 		Graine g = new Graine(new double[] {10, 0, 20, 20});
 		System.out.println("F(graine) = " + courbe.applyAsDouble(g, 15.0));
 		

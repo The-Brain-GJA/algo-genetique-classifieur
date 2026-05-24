@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import algoGenetique.Graine;
 import algoGenetique.ParametresGenerateur;
-import algoGenetique.Simulation;
+import simulation.Simulation;
 
 class SimulationTest {
 

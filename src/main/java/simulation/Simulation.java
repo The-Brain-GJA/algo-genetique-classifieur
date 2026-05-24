@@ -1,6 +1,10 @@
-package algoGenetique;
+package simulation;
 
 import java.util.Arrays;
+
+import algoGenetique.Graine;
+import algoGenetique.GraineEvaluable;
+import algoGenetique.ParametresGenerateur;
 
 /**
  * Gestion d'une simulation à partir d'une seule graine.

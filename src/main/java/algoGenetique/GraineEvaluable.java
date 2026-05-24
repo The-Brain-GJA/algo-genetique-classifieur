@@ -60,7 +60,7 @@ public class GraineEvaluable extends Graine implements Comparable<GraineEvaluabl
 	}
 	
 	@Override
-	protected GraineEvaluable clone() {
+	public GraineEvaluable clone() {
 		return new GraineEvaluable(fonctionEvaluation, getValeurs());
 	}
 	

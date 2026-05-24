@@ -1,4 +1,4 @@
-package algoGenetique;
+package simulation;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -13,6 +13,9 @@ import affichage.DessinCluster;
 import affichage.DessinCourbe;
 import affichage.Ecran;
 import affichage.ObjetDessin;
+import algoGenetique.Graine;
+import algoGenetique.GraineEvaluable;
+import algoGenetique.ParametresGenerateur;
 import affichage.DessinRepere;
 import outils.Pair;
 

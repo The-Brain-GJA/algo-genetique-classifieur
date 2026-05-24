@@ -2,8 +2,8 @@ package test;
 
 import algoGenetique.Graine;
 import algoGenetique.ParametresGenerateur;
-import algoGenetique.Simulation;
-import algoGenetique.SimulationGraine;
+import simulation.Simulation;
+import simulation.SimulationGraine;
 
 /**
  * Gestion de plusieurs simulations indépendantes à partir d'une seule graine
