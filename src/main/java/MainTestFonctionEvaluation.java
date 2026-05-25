@@ -11,6 +11,7 @@ import algoGenetique.Graine;
 import algoGenetique.GraineEvaluable;
 import algoGenetique.ParametresGenerateur;
 import fichiers.LectureCluster;
+import mathematiques.Fonctions;
 import outils.Timer;
 import simulation.Simulation;
 
@@ -23,8 +24,12 @@ public class MainTestFonctionEvaluation {
 		final String nomFichiercluster = "file_1.csv";
 
 
-		ToDoubleBiFunction<Graine, Double> courbe = (g, x) -> g.get(0) * Math.cos(g.get(1) + 1 / g.get(2) * x)
-				+ g.get(3); 
+		ToDoubleBiFunction<Graine, Double> courbe = Fonctions.POLYNOME_COSINUS;
+		
+		Graine[] init = new Graine[] {
+				new Graine(new double[] {0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+				new Graine(new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0})
+		};
 
 		LectureCluster lectureCluster = new LectureCluster();
 		List<Point2D[]> listePoints = lectureCluster.lire(nomFichiercluster);
@@ -57,9 +62,10 @@ public class MainTestFonctionEvaluation {
 				return valeur;
 		};
 
-		Graine g = new Graine(new double[] {10,  10, 10, 10});
+		Graine g = new Graine(new double[] {0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 	
 		ParametresGenerateur parametre = new ParametresGenerateur(2, 10, 1);
+		parametre.setCourbe(courbe);
 		
 		Simulation s = new Simulation(parametre, g);
 		s.majFonctionEvaluation(fonctionEvaluation);

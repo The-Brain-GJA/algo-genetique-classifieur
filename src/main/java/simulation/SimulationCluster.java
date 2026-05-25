@@ -28,7 +28,9 @@ public class SimulationCluster extends SimulationMultiGraines {
 		listePoints = lectureCluster.lire(nomFichier);
 		// XXX à changer ?
 		if(listePoints.size() > parametres.getNbClustersMax()) {
-			fusionnerListes(0, 2);
+			// fusionnerListes(0, 2); // OK
+			fusionnerListes(1, 2); // OK si évaluation inversée
+			//fusionnerListes(0, 1); // OK si évaluation inversée
 		}
 		majFonctionEvaluation();
 	}
@@ -45,7 +47,7 @@ public class SimulationCluster extends SimulationMultiGraines {
 					for (Point2D point : listePoints.get(0)) {
 						//valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) <= point.getY() ? -1 : 1;
 						double f_x = parametres.getCourbe().applyAsDouble(g, point.getX());
-						if(point.getY() < f_x) {
+						if(point.getY() > f_x) {
 							valeur += Math.pow(point.getY() - f_x, 2);
 						}
 					}
@@ -54,7 +56,7 @@ public class SimulationCluster extends SimulationMultiGraines {
 					for (Point2D point : listePoints.get(1)) {
 						//valeur += parametres.getCourbe().applyAsDouble(g, point.getX()) >= point.getY() ? -1 : 1;
 						double f_x = parametres.getCourbe().applyAsDouble(g, point.getX());
-						if(point.getY() > f_x) {
+						if(point.getY() <= f_x) {
 							valeur += Math.pow(point.getY() - f_x, 2);
 						}
 					}
